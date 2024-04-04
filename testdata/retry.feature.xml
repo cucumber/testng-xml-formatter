@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results failed="7" passed="3" skipped="0" total="10">
+<suite name="Cucumber" duration-ms="41">
+<test name="Cucumber" duration-ms="41">
+<class name="Retry">
+<test-method name="Test cases that pass aren't retried" status="PASS" duration-ms="3" started-at="1970-01-01T00:00:00.001Z" finished-at="1970-01-01T00:00:00.004Z">
+</test-method>
+<test-method name="Test cases that fail are retried if within the --retry limit" status="FAIL" duration-ms="3" started-at="1970-01-01T00:00:00.005Z" finished-at="1970-01-01T00:00:00.008Z">
+<exception class="Error">
+<message><![CDATA[
+Given a step that passes the second time....................................failed
+]]></message>
+</exception>
+</test-method>
+<test-method name="Test cases that fail are retried if within the --retry limit" status="PASS" duration-ms="3" started-at="1970-01-01T00:00:00.009Z" finished-at="1970-01-01T00:00:00.012Z">
+</test-method>
+<test-method name="Test cases that fail will continue to retry up to the --retry limit" status="FAIL" duration-ms="3" started-at="1970-01-01T00:00:00.013Z" finished-at="1970-01-01T00:00:00.016Z">
+<exception class="Error">
+<message><![CDATA[
+Given a step that passes the third time.....................................failed
+]]></message>
+</exception>
+</test-method>
+<test-method name="Test cases that fail will continue to retry up to the --retry limit" status="FAIL" duration-ms="3" started-at="1970-01-01T00:00:00.017Z" finished-at="1970-01-01T00:00:00.020Z">
+<exception class="Error">
+<message><![CDATA[
+Given a step that passes the third time.....................................failed
+]]></message>
+</exception>
+</test-method>
+<test-method name="Test cases that fail will continue to retry up to the --retry limit" status="PASS" duration-ms="3" started-at="1970-01-01T00:00:00.021Z" finished-at="1970-01-01T00:00:00.024Z">
+</test-method>
+<test-method name="Test cases won't retry after failing more than the --retry limit" status="FAIL" duration-ms="3" started-at="1970-01-01T00:00:00.025Z" finished-at="1970-01-01T00:00:00.028Z">
+<exception class="Error">
+<message><![CDATA[
+Given a step that always fails..............................................failed
+]]></message>
+</exception>
+</test-method>
+<test-method name="Test cases won't retry after failing more than the --retry limit" status="FAIL" duration-ms="3" started-at="1970-01-01T00:00:00.029Z" finished-at="1970-01-01T00:00:00.032Z">
+<exception class="Error">
+<message><![CDATA[
+Given a step that always fails..............................................failed
+]]></message>
+</exception>
+</test-method>
+<test-method name="Test cases won't retry after failing more than the --retry limit" status="FAIL" duration-ms="3" started-at="1970-01-01T00:00:00.033Z" finished-at="1970-01-01T00:00:00.036Z">
+<exception class="Error">
+<message><![CDATA[
+Given a step that always fails..............................................failed
+]]></message>
+</exception>
+</test-method>
+<test-method name="Test cases won't retry when the status is UNDEFINED" status="FAIL" duration-ms="3" started-at="1970-01-01T00:00:00.037Z" finished-at="1970-01-01T00:00:00.040Z">
+<exception class="The scenario has undefined step(s)">
+<message><![CDATA[
+Given a non-existent step...................................................undefined
+]]></message>
+<full-stacktrace>
+
+<![CDATA[The scenario has undefined step(s)]]>
+</full-stacktrace>
+</exception>
+</test-method>
+</class>
+</test>
+</suite>
+</testng-results>

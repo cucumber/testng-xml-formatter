@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results failed="0" passed="3" skipped="0" total="3">
+<suite name="Cucumber" duration-ms="31">
+<test name="Cucumber" duration-ms="31">
+<class name="Usage of a `Rule`">
+<test-method name="A sale cannot happen if the customer does not have enough money - Not enough money" status="PASS" duration-ms="9" started-at="1970-01-01T00:00:00.001Z" finished-at="1970-01-01T00:00:00.010Z">
+</test-method>
+<test-method name="A sale cannot happen if the customer does not have enough money - Enough money" status="PASS" duration-ms="9" started-at="1970-01-01T00:00:00.011Z" finished-at="1970-01-01T00:00:00.020Z">
+</test-method>
+<test-method name="a sale cannot happen if there is no stock - No chocolates left" status="PASS" duration-ms="9" started-at="1970-01-01T00:00:00.021Z" finished-at="1970-01-01T00:00:00.030Z">
+</test-method>
+</class>
+</test>
+</suite>
+</testng-results>
