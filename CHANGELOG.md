@@ -11,8 +11,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Java implementation
 
-## 0.0.0
-
-[Unreleased]: https://github.com/cucumber/cucumber-junit-xml-formatter/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/cucumber/cucumber-junit-xml-formatter/compare/v0.0.0...v0.1.0
-..v0.0.0
+[Unreleased]: https://github.com/cucumber/testng-xml-formatter/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/cucumber/testng-xml-formatter/compare/84ab54710362cbbfa1545d092fd4c9d0e69f74cf...v0.1.0
