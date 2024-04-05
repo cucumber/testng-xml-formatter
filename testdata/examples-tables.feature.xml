@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results failed="4" passed="2" skipped="0" total="6">
+<suite name="Cucumber" duration-ms="49">
+<test name="Cucumber" duration-ms="49">
+<class name="Examples Tables">
+<test-method name="Eating cucumbers - These are passing - Example #1.1" status="PASS" duration-ms="7" started-at="1970-01-01T00:00:00.001Z" finished-at="1970-01-01T00:00:00.008Z"/>
+<test-method name="Eating cucumbers - These are passing - Example #1.2" status="PASS" duration-ms="7" started-at="1970-01-01T00:00:00.009Z" finished-at="1970-01-01T00:00:00.016Z"/>
+<test-method name="Eating cucumbers - These are failing - Example #2.1" status="FAIL" duration-ms="7" started-at="1970-01-01T00:00:00.017Z" finished-at="1970-01-01T00:00:00.024Z">
+<exception class="AssertionError">
+<message><![CDATA[
+Given there are 12 cucumbers................................................passed
+When I eat 20 cucumbers.....................................................passed
+Then I should have 0 cucumbers..............................................failed
+]]></message>
+</exception>
+</test-method>
+<test-method name="Eating cucumbers - These are failing - Example #2.2" status="FAIL" duration-ms="7" started-at="1970-01-01T00:00:00.025Z" finished-at="1970-01-01T00:00:00.032Z">
+<exception class="AssertionError">
+<message><![CDATA[
+Given there are 0 cucumbers.................................................passed
+When I eat 1 cucumbers......................................................passed
+Then I should have 0 cucumbers..............................................failed
+]]></message>
+</exception>
+</test-method>
+<test-method name="Eating cucumbers - These are undefined because the value is not an {int} - Example #3.1" status="FAIL" duration-ms="7" started-at="1970-01-01T00:00:00.033Z" finished-at="1970-01-01T00:00:00.040Z">
+<exception class="The scenario has undefined step(s)">
+<message><![CDATA[
+Given there are 12 cucumbers................................................passed
+When I eat banana cucumbers.................................................undefined
+Then I should have 12 cucumbers.............................................skipped
+]]></message>
+<full-stacktrace>
+<![CDATA[The scenario has undefined step(s)]]>
+</full-stacktrace>
+</exception>
+</test-method>
+<test-method name="Eating cucumbers - These are undefined because the value is not an {int} - Example #3.2" status="FAIL" duration-ms="7" started-at="1970-01-01T00:00:00.041Z" finished-at="1970-01-01T00:00:00.048Z">
+<exception class="The scenario has undefined step(s)">
+<message><![CDATA[
+Given there are 0 cucumbers.................................................passed
+When I eat 1 cucumbers......................................................passed
+Then I should have apple cucumbers..........................................undefined
+]]></message>
+<full-stacktrace>
+<![CDATA[The scenario has undefined step(s)]]>
+</full-stacktrace>
+</exception>
+</test-method>
+</class>
+</test>
+</suite>
+</testng-results>

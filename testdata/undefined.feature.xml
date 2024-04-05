@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results failed="3" passed="0" skipped="0" total="3">
+<suite name="Cucumber" duration-ms="17">
+<test name="Cucumber" duration-ms="17">
+<class name="Undefined steps">
+<test-method name="An undefined step causes a failure" status="FAIL" duration-ms="3" started-at="1970-01-01T00:00:00.001Z" finished-at="1970-01-01T00:00:00.004Z">
+<exception class="The scenario has undefined step(s)">
+<message><![CDATA[
+Given a step that is yet to be defined......................................undefined
+]]></message>
+<full-stacktrace>
+<![CDATA[The scenario has undefined step(s)]]>
+</full-stacktrace>
+</exception>
+</test-method>
+<test-method name="Steps before undefined steps are executed" status="FAIL" duration-ms="5" started-at="1970-01-01T00:00:00.005Z" finished-at="1970-01-01T00:00:00.010Z">
+<exception class="The scenario has undefined step(s)">
+<message><![CDATA[
+Given an implemented step...................................................passed
+And a step that is yet to be defined........................................undefined
+]]></message>
+<full-stacktrace>
+<![CDATA[The scenario has undefined step(s)]]>
+</full-stacktrace>
+</exception>
+</test-method>
+<test-method name="Steps after undefined steps are skipped" status="FAIL" duration-ms="5" started-at="1970-01-01T00:00:00.011Z" finished-at="1970-01-01T00:00:00.016Z">
+<exception class="The scenario has undefined step(s)">
+<message><![CDATA[
+Given a step that is yet to be defined......................................undefined
+And a step that will be skipped.............................................skipped
+]]></message>
+<full-stacktrace>
+<![CDATA[The scenario has undefined step(s)]]>
+</full-stacktrace>
+</exception>
+</test-method>
+</class>
+</test>
+</suite>
+</testng-results>
