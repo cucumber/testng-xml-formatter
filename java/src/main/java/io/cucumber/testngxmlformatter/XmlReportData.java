@@ -27,18 +27,17 @@ import java.util.Optional;
 import java.util.Set;
 
 import static io.cucumber.messages.types.TestStepResultStatus.PASSED;
-import static io.cucumber.query.NamingStrategy.FeatureName.EXCLUDE;
-import static io.cucumber.query.NamingStrategy.Strategy.LONG;
 import static java.util.stream.Collectors.toList;
 
 class XmlReportData {
 
     final Query query = new Query();
 
-    private final NamingStrategy namingStrategy = NamingStrategy
-            .strategy(LONG)
-            .featureName(EXCLUDE)
-            .build();
+    private final NamingStrategy namingStrategy;
+
+    XmlReportData(NamingStrategy namingStrategy) {
+        this.namingStrategy = namingStrategy;
+    }
 
     void collect(Envelope envelope) {
         query.update(envelope);
