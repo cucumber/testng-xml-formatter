@@ -1,4 +1,4 @@
-[![Maven Central](https://img.shields.io/maven-central/v/io.cucumber/testng-xml-formatter.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.cucumber%22%20AND%20a:%22testng-xml-formatter%22)
+[![Maven Central](https://img.shields.io/maven-central/v/io.cucumber/testng-xml-formatter.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:io.cucumber%20AND%20a:testng-xml-formatter)
 
 ⚠️ This is an internal package; you don't need to install it in order to use the TestNG XML Formatter.
 
