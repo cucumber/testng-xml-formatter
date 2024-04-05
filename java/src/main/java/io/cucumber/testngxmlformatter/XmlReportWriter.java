@@ -112,7 +112,7 @@ class XmlReportWriter {
     private void writeTestMethod(EscapingXmlStreamWriter writer, TestCaseStarted testCaseStarted) throws XMLStreamException {
         TestStepResult result = data.getTestCaseStatus(testCaseStarted);
 
-        boolean passing = isPassedOrSkippedWithoutException(result);
+        boolean passing = isPassed(result);
         if (passing) {
             writer.writeEmptyElement("test-method");
         } else {
@@ -127,10 +127,9 @@ class XmlReportWriter {
         writer.newLine();
     }
 
-    private static boolean isPassedOrSkippedWithoutException(TestStepResult result) {
+    private static boolean isPassed(TestStepResult result) {
         TestStepResultStatus status = result.getStatus();
-        Optional<Exception> exception = result.getException();
-        return status == PASSED || status == SKIPPED && !exception.isPresent();
+        return status == PASSED;
     }
 
     private void writeTestMethodAttributes(EscapingXmlStreamWriter writer, TestCaseStarted testCaseStarted, TestStepResult result) throws XMLStreamException {
@@ -153,11 +152,11 @@ class XmlReportWriter {
     }
 
     private void writeException(EscapingXmlStreamWriter writer, TestCaseStarted testCaseStarted, TestStepResult result) throws XMLStreamException {
-        Optional<Exception> exception = result.getException();
-        Exception exceptionOrUndefined = exception.orElseGet(undefinedException());
-        Optional<String> stackTrace = exceptionOrUndefined.getStackTrace();
+        Exception exceptionOrSkippedOrUndefined = result.getException()
+                .orElseGet(undefinedOrSkippedException(result.getStatus()));
+        Optional<String> stackTrace = exceptionOrSkippedOrUndefined.getStackTrace();
         writer.writeStartElement("exception");
-        writeExceptionAttributes(writer, exceptionOrUndefined);
+        writeExceptionAttributes(writer, exceptionOrSkippedOrUndefined);
         writer.newLine();
 
         writeMessage(writer, testCaseStarted);
@@ -176,7 +175,15 @@ class XmlReportWriter {
 
     }
 
-    private static Supplier<Exception> undefinedException() {
+    private static Supplier<Exception> undefinedOrSkippedException(TestStepResultStatus status) {
+        if (status == SKIPPED) {
+            // Skipped may not be caused by an exception, i.e. `return "skipped` in JS or Ruby.
+            return () -> new Exception(
+                    "The scenario has skipped step(s)",
+                    null,
+                    "The scenario has skipped step(s)"
+            );
+        }
         // Undefined is not caused by an exception
         return () -> new Exception(
                 "The scenario has undefined step(s)",
