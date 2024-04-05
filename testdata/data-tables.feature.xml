@@ -3,8 +3,7 @@
 <suite name="Cucumber" duration-ms="7">
 <test name="Cucumber" duration-ms="7">
 <class name="Data Tables">
-<test-method name="transposed table" status="PASS" duration-ms="5" started-at="1970-01-01T00:00:00.001Z" finished-at="1970-01-01T00:00:00.006Z">
-</test-method>
+<test-method name="transposed table" status="PASS" duration-ms="5" started-at="1970-01-01T00:00:00.001Z" finished-at="1970-01-01T00:00:00.006Z"/>
 </class>
 </test>
 </suite>

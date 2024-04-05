@@ -109,14 +109,16 @@ Feature: Examples Tables
 
 ```xml
 <class name="Examples Tables">
-    <test-method name="Eating cucumbers - These are passing - Example #1.1" status="PASS" duration-ms="7" started-at="1970-01-01T00:00:00.001Z" finished-at="1970-01-01T00:00:00.008Z">
-    </test-method>
-    <test-method name="Eating cucumbers - These are passing - Example #1.2" status="PASS" duration-ms="7" started-at="1970-01-01T00:00:00.009Z" finished-at="1970-01-01T00:00:00.016Z">
-    </test-method>
-    <test-method name="Eating cucumbers - These are failing - Example #2.1" status="FAIL" duration-ms="7" started-at="1970-01-01T00:00:00.017Z" finished-at="1970-01-01T00:00:00.024Z">
+    <test-method name="Eating cucumbers - These are passing - Example #1.1" status="PASS" duration-ms="7"
+                 started-at="1970-01-01T00:00:00.001Z" finished-at="1970-01-01T00:00:00.008Z"/>
+    <test-method name="Eating cucumbers - These are passing - Example #1.2" status="PASS" duration-ms="7"
+                 started-at="1970-01-01T00:00:00.009Z" finished-at="1970-01-01T00:00:00.016Z"/>
+    <test-method name="Eating cucumbers - These are failing - Example #2.1" status="FAIL" duration-ms="7" 
+                 started-at="1970-01-01T00:00:00.017Z" finished-at="1970-01-01T00:00:00.024Z">
         <exception class="AssertionError">...</exception>
     </test-method>
-    <test-method name="Eating cucumbers - These are failing - Example #2.2" status="FAIL" duration-ms="7" started-at="1970-01-01T00:00:00.025Z" finished-at="1970-01-01T00:00:00.032Z">
+    <test-method name="Eating cucumbers - These are failing - Example #2.2" status="FAIL" duration-ms="7" 
+                 started-at="1970-01-01T00:00:00.025Z" finished-at="1970-01-01T00:00:00.032Z">
         <exception class="AssertionError">...</exception>
     </test-method>
 </class>

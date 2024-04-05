@@ -3,12 +3,9 @@
 <suite name="Cucumber" duration-ms="19">
 <test name="Cucumber" duration-ms="19">
 <class name="Skipping scenarios">
-<test-method name="Skipping from a Before hook" status="SKIP" duration-ms="5" started-at="1970-01-01T00:00:00.001Z" finished-at="1970-01-01T00:00:00.006Z">
-</test-method>
-<test-method name="Skipping from a step doesn't affect the previous steps" status="SKIP" duration-ms="5" started-at="1970-01-01T00:00:00.007Z" finished-at="1970-01-01T00:00:00.012Z">
-</test-method>
-<test-method name="Skipping from a step causes the rest of the scenario to be skipped" status="SKIP" duration-ms="5" started-at="1970-01-01T00:00:00.013Z" finished-at="1970-01-01T00:00:00.018Z">
-</test-method>
+<test-method name="Skipping from a Before hook" status="SKIP" duration-ms="5" started-at="1970-01-01T00:00:00.001Z" finished-at="1970-01-01T00:00:00.006Z"/>
+<test-method name="Skipping from a step doesn't affect the previous steps" status="SKIP" duration-ms="5" started-at="1970-01-01T00:00:00.007Z" finished-at="1970-01-01T00:00:00.012Z"/>
+<test-method name="Skipping from a step causes the rest of the scenario to be skipped" status="SKIP" duration-ms="5" started-at="1970-01-01T00:00:00.013Z" finished-at="1970-01-01T00:00:00.018Z"/>
 </class>
 </test>
 </suite>

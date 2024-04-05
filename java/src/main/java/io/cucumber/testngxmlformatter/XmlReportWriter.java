@@ -112,14 +112,26 @@ class XmlReportWriter {
     private void writeTestMethod(EscapingXmlStreamWriter writer, TestCaseStarted testCaseStarted) throws XMLStreamException {
         TestStepResult result = data.getTestCaseStatus(testCaseStarted);
 
-        writer.writeStartElement("test-method");
+        boolean passing = isPassedOrSkippedWithoutException(result);
+        if (passing) {
+            writer.writeEmptyElement("test-method");
+        } else {
+            writer.writeStartElement("test-method");
+        }
         writeTestMethodAttributes(writer, testCaseStarted, result);
-        writer.newLine();
-        writeException(writer, testCaseStarted, result);
-        writer.writeEndElement();
+        if (!passing) {
+            writer.newLine();
+            writeException(writer, testCaseStarted, result);
+            writer.writeEndElement();
+        }
         writer.newLine();
     }
 
+    private static boolean isPassedOrSkippedWithoutException(TestStepResult result) {
+        TestStepResultStatus status = result.getStatus();
+        Optional<Exception> exception = result.getException();
+        return status == PASSED || status == SKIPPED && !exception.isPresent();
+    }
 
     private void writeTestMethodAttributes(EscapingXmlStreamWriter writer, TestCaseStarted testCaseStarted, TestStepResult result) throws XMLStreamException {
         writer.writeAttribute("name", data.getPickleName(testCaseStarted));
@@ -141,14 +153,7 @@ class XmlReportWriter {
     }
 
     private void writeException(EscapingXmlStreamWriter writer, TestCaseStarted testCaseStarted, TestStepResult result) throws XMLStreamException {
-        TestStepResultStatus status = result.getStatus();
-        if (status == PASSED) {
-            return;
-        }
         Optional<Exception> exception = result.getException();
-        if (status == SKIPPED && !exception.isPresent()) {
-            return;
-        }
         Exception exceptionOrUndefined = exception.orElseGet(undefinedException());
         Optional<String> stackTrace = exceptionOrUndefined.getStackTrace();
         writer.writeStartElement("exception");

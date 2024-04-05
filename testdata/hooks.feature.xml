@@ -3,8 +3,7 @@
 <suite name="Cucumber" duration-ms="55">
 <test name="Cucumber" duration-ms="55">
 <class name="Hooks">
-<test-method name="No tags and a passed step" status="PASS" duration-ms="9" started-at="1970-01-01T00:00:00.001Z" finished-at="1970-01-01T00:00:00.010Z">
-</test-method>
+<test-method name="No tags and a passed step" status="PASS" duration-ms="9" started-at="1970-01-01T00:00:00.001Z" finished-at="1970-01-01T00:00:00.010Z"/>
 <test-method name="No tags and a failed step" status="FAIL" duration-ms="9" started-at="1970-01-01T00:00:00.011Z" finished-at="1970-01-01T00:00:00.020Z">
 <exception class="Error">
 <message><![CDATA[
@@ -29,8 +28,7 @@ When a step passes..........................................................pass
 ]]></message>
 </exception>
 </test-method>
-<test-method name="With an tag, an valid attachment in the hook and a passed step" status="PASS" duration-ms="11" started-at="1970-01-01T00:00:00.043Z" finished-at="1970-01-01T00:00:00.054Z">
-</test-method>
+<test-method name="With an tag, an valid attachment in the hook and a passed step" status="PASS" duration-ms="11" started-at="1970-01-01T00:00:00.043Z" finished-at="1970-01-01T00:00:00.054Z"/>
 </class>
 </test>
 </suite>

@@ -13,8 +13,7 @@ Then this might or might not run............................................skip
 ]]></message>
 </exception>
 </test-method>
-<test-method name="Nom nom nom - Ylajali! - because we need more tables - Example #1.2" status="PASS" duration-ms="9" started-at="1970-01-01T00:00:00.011Z" finished-at="1970-01-01T00:00:00.020Z">
-</test-method>
+<test-method name="Nom nom nom - Ylajali! - because we need more tables - Example #1.2" status="PASS" duration-ms="9" started-at="1970-01-01T00:00:00.011Z" finished-at="1970-01-01T00:00:00.020Z"/>
 </class>
 </test>
 </suite>
