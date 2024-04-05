@@ -197,7 +197,7 @@ class XmlReportWriter {
     }
 
     private void writeMessage(EscapingXmlStreamWriter writer, TestCaseStarted testCaseStarted) throws XMLStreamException {
-        List<Map.Entry<String, String>> results = data.getStepsAndResult(testCaseStarted);
+        List<Entry<String, String>> results = data.getStepsAndResult(testCaseStarted);
         if (results.isEmpty()) {
             return;
         }
@@ -207,7 +207,7 @@ class XmlReportWriter {
         writer.newLine();
     }
 
-    private String createStepResultList(List<Map.Entry<String, String>> results) {
+    private String createStepResultList(List<Entry<String, String>> results) {
         StringBuilder sb = new StringBuilder();
         sb.append("\n");
         results.forEach(r -> {
