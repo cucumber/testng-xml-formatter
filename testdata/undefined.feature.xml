@@ -9,7 +9,6 @@
 Given a step that is yet to be defined......................................undefined
 ]]></message>
 <full-stacktrace>
-
 <![CDATA[The scenario has undefined step(s)]]>
 </full-stacktrace>
 </exception>
@@ -21,7 +20,6 @@ Given an implemented step...................................................pass
 And a step that is yet to be defined........................................undefined
 ]]></message>
 <full-stacktrace>
-
 <![CDATA[The scenario has undefined step(s)]]>
 </full-stacktrace>
 </exception>
@@ -33,7 +31,6 @@ Given a step that is yet to be defined......................................unde
 And a step that will be skipped.............................................skipped
 ]]></message>
 <full-stacktrace>
-
 <![CDATA[The scenario has undefined step(s)]]>
 </full-stacktrace>
 </exception>

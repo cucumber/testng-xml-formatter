@@ -160,8 +160,6 @@ class XmlReportWriter {
         if (stackTrace.isPresent()) {
             writer.writeStartElement("full-stacktrace");
             writer.newLine();
-
-            writer.newLine();
             writer.writeCData(stackTrace.get());
             writer.newLine();
 

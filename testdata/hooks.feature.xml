@@ -18,7 +18,6 @@ When a step fails...........................................................fail
 When a step does not exist..................................................undefined
 ]]></message>
 <full-stacktrace>
-
 <![CDATA[The scenario has undefined step(s)]]>
 </full-stacktrace>
 </exception>

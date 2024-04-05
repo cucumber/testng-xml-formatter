@@ -33,7 +33,6 @@ When I eat banana cucumbers.................................................unde
 Then I should have 12 cucumbers.............................................skipped
 ]]></message>
 <full-stacktrace>
-
 <![CDATA[The scenario has undefined step(s)]]>
 </full-stacktrace>
 </exception>
@@ -46,7 +45,6 @@ When I eat 1 cucumbers......................................................pass
 Then I should have apple cucumbers..........................................undefined
 ]]></message>
 <full-stacktrace>
-
 <![CDATA[The scenario has undefined step(s)]]>
 </full-stacktrace>
 </exception>

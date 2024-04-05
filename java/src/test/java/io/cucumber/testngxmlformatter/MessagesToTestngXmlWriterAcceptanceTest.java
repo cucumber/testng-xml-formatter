@@ -24,7 +24,7 @@ import java.util.stream.Stream;
 import static io.cucumber.testngxmlformatter.Jackson.OBJECT_MAPPER;
 import static org.xmlunit.assertj.XmlAssert.assertThat;
 
-class MessagesToJunitXmlWriterAcceptanceTest {
+class MessagesToTestngXmlWriterAcceptanceTest {
     private static final NdjsonToMessageIterable.Deserializer deserializer = (json) -> OBJECT_MAPPER.readValue(json, Envelope.class);
 
     static List<TestCase> acceptance() throws IOException {
