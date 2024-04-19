@@ -120,12 +120,12 @@ class XmlReportData {
                 .orElse(SCENARIO_WITH_NO_STEPS);
     }
 
-    public String getStartedAt(TestCaseStarted testCaseStarted) {
+    String getStartedAt(TestCaseStarted testCaseStarted) {
         Instant instant = Convertor.toInstant(testCaseStarted.getTimestamp());
         return DateTimeFormatter.ISO_INSTANT.format(instant);
     }
 
-    public String getFinishedAt(TestCaseStarted testCaseStarted) {
+    String getFinishedAt(TestCaseStarted testCaseStarted) {
         TestCaseFinished testCaseFinished = query.findTestCaseFinishedBy(testCaseStarted)
                 .orElseThrow(() -> new IllegalStateException("No test cased finished for " + testCaseStarted));
         Instant instant = Convertor.toInstant(testCaseFinished.getTimestamp());

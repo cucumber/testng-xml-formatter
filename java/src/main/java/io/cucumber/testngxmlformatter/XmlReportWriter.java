@@ -30,7 +30,7 @@ class XmlReportWriter {
         XMLOutputFactory factory = XMLOutputFactory.newInstance();
         EscapingXmlStreamWriter writer = new EscapingXmlStreamWriter(factory.createXMLStreamWriter(out));
         writer.writeStartDocument("UTF-8", "1.0");
-        writer.newLine();
+        writer.writeNewLine();
         writeTestngResults(writer);
         writer.writeEndDocument();
         writer.flush();
@@ -39,10 +39,10 @@ class XmlReportWriter {
     private void writeTestngResults(EscapingXmlStreamWriter writer) throws XMLStreamException {
         writer.writeStartElement("testng-results");
         writeTestngResultsAttributes(writer);
-        writer.newLine();
+        writer.writeNewLine();
         writeSuite(writer);
         writer.writeEndElement();
-        writer.newLine();
+        writer.writeNewLine();
     }
 
     private void writeTestngResultsAttributes(EscapingXmlStreamWriter writer) throws XMLStreamException {
@@ -69,10 +69,10 @@ class XmlReportWriter {
     private void writeSuite(EscapingXmlStreamWriter writer) throws XMLStreamException {
         writer.writeStartElement("suite");
         writeSuiteAttributes(writer);
-        writer.newLine();
+        writer.writeNewLine();
         writeTest(writer);
         writer.writeEndElement();
-        writer.newLine();
+        writer.writeNewLine();
     }
 
     private void writeSuiteAttributes(EscapingXmlStreamWriter writer) throws XMLStreamException {
@@ -83,7 +83,7 @@ class XmlReportWriter {
     private void writeTest(EscapingXmlStreamWriter writer) throws XMLStreamException {
         writer.writeStartElement("test");
         writeTestAttributes(writer);
-        writer.newLine();
+        writer.writeNewLine();
 
         for (Entry<Optional<Feature>, List<TestCaseStarted>> entry : data.getAllTestCaseStartedGroupedByFeature()) {
             writer.writeStartElement("class");
@@ -91,16 +91,16 @@ class XmlReportWriter {
                     .map(Feature::getName)
                     .orElse("Unknown");
             writer.writeAttribute("name", featureName);
-            writer.newLine();
+            writer.writeNewLine();
 
             for (TestCaseStarted testCaseStarted : entry.getValue()) {
                 writeTestMethod(writer, testCaseStarted);
             }
             writer.writeEndElement();
-            writer.newLine();
+            writer.writeNewLine();
         }
         writer.writeEndElement();
-        writer.newLine();
+        writer.writeNewLine();
     }
 
     private void writeTestAttributes(EscapingXmlStreamWriter writer) throws XMLStreamException {
@@ -120,11 +120,11 @@ class XmlReportWriter {
         }
         writeTestMethodAttributes(writer, testCaseStarted, result);
         if (!passing) {
-            writer.newLine();
+            writer.writeNewLine();
             writeException(writer, testCaseStarted, result);
             writer.writeEndElement();
         }
-        writer.newLine();
+        writer.writeNewLine();
     }
 
     private static boolean isPassed(TestStepResult result) {
@@ -157,21 +157,21 @@ class XmlReportWriter {
         Optional<String> stackTrace = exceptionOrSkippedOrUndefined.getStackTrace();
         writer.writeStartElement("exception");
         writeExceptionAttributes(writer, exceptionOrSkippedOrUndefined);
-        writer.newLine();
+        writer.writeNewLine();
 
         writeMessage(writer, testCaseStarted);
 
         if (stackTrace.isPresent()) {
             writer.writeStartElement("full-stacktrace");
-            writer.newLine();
+            writer.writeNewLine();
             writer.writeCData(stackTrace.get());
-            writer.newLine();
+            writer.writeNewLine();
 
             writer.writeEndElement();
-            writer.newLine();
+            writer.writeNewLine();
         }
         writer.writeEndElement();
-        writer.newLine();
+        writer.writeNewLine();
 
     }
 
@@ -204,7 +204,7 @@ class XmlReportWriter {
         writer.writeStartElement("message");
         writer.writeCData(createStepResultList(results));
         writer.writeEndElement();
-        writer.newLine();
+        writer.writeNewLine();
     }
 
     private String createStepResultList(List<Entry<String, String>> results) {
