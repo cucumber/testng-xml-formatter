@@ -9,7 +9,7 @@ Writes Cucumber message into a TestNG XML report.
 
 The TestNG XML report does not come with an XSD and the [TestNG documentations](https://testng-docs.readthedocs.io/testresults/#xml-reports)
 only provides a minimal example. Nevertheless, we had this formatter since 2013
-with no recent issues. So there is a good your tools will understand it.
+with no recent issues. So there is a good chance your tools will understand it.
 
 If not, please let us know in the issues!
 
