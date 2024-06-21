@@ -86,7 +86,8 @@ Feature: Rules
 ```
 
 Likewise for example tables, the rule (if any), scenario outline name, example
-name, and number are included. 
+name, and number are included. Additionally, if the scenario outline name is
+parameterized, the pickle name is included too.
 
 ```feature
 Feature: Examples Tables
@@ -105,20 +106,43 @@ Feature: Examples Tables
       | start | eat | left |
       |    12 |  20 |    0 |
       |     0 |   1 |    0 |
+
+  Scenario Outline: Eating <color> cucumbers
+    Given I am transparent
+    When I eat <color> cucumbers
+    Then I become <color>
+
+    Examples:
+      | color | 
+      |   red | 
+      | green | 
+      |  blue | 
 ```
 
 ```xml
 <class name="Examples Tables">
-    <test-method name="Eating cucumbers - These are passing - Example #1.1" status="PASS" duration-ms="7"
+    <test-method name="Eating cucumbers - These are passing - #1.1" status="PASS" duration-ms="7"
                  started-at="1970-01-01T00:00:00.001Z" finished-at="1970-01-01T00:00:00.008Z"/>
-    <test-method name="Eating cucumbers - These are passing - Example #1.2" status="PASS" duration-ms="7"
+    <test-method name="Eating cucumbers - These are passing - #1.2" status="PASS" duration-ms="7"
                  started-at="1970-01-01T00:00:00.009Z" finished-at="1970-01-01T00:00:00.016Z"/>
-    <test-method name="Eating cucumbers - These are failing - Example #2.1" status="FAIL" duration-ms="7" 
+    <test-method name="Eating cucumbers - These are failing - #2.1" status="FAIL" duration-ms="7" 
                  started-at="1970-01-01T00:00:00.017Z" finished-at="1970-01-01T00:00:00.024Z">
         <exception class="AssertionError">...</exception>
     </test-method>
-    <test-method name="Eating cucumbers - These are failing - Example #2.2" status="FAIL" duration-ms="7" 
+    <test-method name="Eating cucumbers - These are failing - #2.2" status="FAIL" duration-ms="7" 
                  started-at="1970-01-01T00:00:00.025Z" finished-at="1970-01-01T00:00:00.032Z">
+        <exception class="AssertionError">...</exception>
+    </test-method>
+    <test-method name="Eating &lt;color&gt; cucumbers - #1.1: Eating red cucumbers" status="FAIL" duration-ms="7" 
+                 started-at="1970-01-01T00:00:00.025Z" finished-at="1970-01-01T00:00:00.040Z">
+        <exception class="AssertionError">...</exception>
+    </test-method>
+    <test-method name="Eating &lt;color&gt; cucumbers - #1.2: Eating green cucumbers" status="FAIL" duration-ms="7" 
+                 started-at="1970-01-01T00:00:00.025Z" finished-at="1970-01-01T00:00:00.048Z">
+        <exception class="AssertionError">...</exception>
+    </test-method>
+    <test-method name="Eating &lt;color&gt; cucumbers - #1.2: Eating blue cucumbers" status="FAIL" duration-ms="7" 
+                 started-at="1970-01-01T00:00:00.025Z" finished-at="1970-01-01T00:00:00.056Z">
         <exception class="AssertionError">...</exception>
     </test-method>
 </class>
