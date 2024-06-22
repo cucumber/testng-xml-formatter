@@ -28,7 +28,7 @@ public class MessagesToTestngXmlWriter implements AutoCloseable {
 
 
     public MessagesToTestngXmlWriter(OutputStream out) {
-        this(NamingStrategy.ExampleName.NUMBER, out);
+        this(NamingStrategy.ExampleName.NUMBER_AND_PICKLE_IF_PARAMETERIZED, out);
     }
 
     public MessagesToTestngXmlWriter(NamingStrategy.ExampleName exampleNameStrategy, OutputStream out) {
