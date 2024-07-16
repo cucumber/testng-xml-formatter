@@ -147,6 +147,12 @@ Feature: Examples Tables
     </test-method>
 </class>
 ```
+## Android
+
+The Android SDK does not include `javax.xml.stream.XMLOutputFactory`. This and
+other missing `java.xml.stream.*` dependencies can be provided by adding
+`com.fasterxml:aalto-xml` to your dependencies.
+
 ## Contributing
 
 Each language implementation validates itself against the examples in the
