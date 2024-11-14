@@ -9,6 +9,7 @@ import io.cucumber.messages.types.TestStepResultStatus;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import java.io.Writer;
+import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
@@ -46,16 +47,16 @@ class XmlReportWriter {
     }
 
     private void writeTestngResultsAttributes(EscapingXmlStreamWriter writer) throws XMLStreamException {
-        Map<TestStepResultStatus, Long> counts = data.getTestCaseStatusCounts();
+        EnumMap<TestStepResultStatus, Long> counts = data.getTestCaseStatusCounts();
 
         writer.writeAttribute("failed", String.valueOf(countFailures(counts)));
-        writer.writeAttribute("passed", counts.getOrDefault(PASSED, 0L).toString());
-        writer.writeAttribute("skipped", counts.getOrDefault(SKIPPED, 0L).toString());
+        writer.writeAttribute("passed", counts.get(PASSED).toString());
+        writer.writeAttribute("skipped", counts.get(SKIPPED).toString());
         writer.writeAttribute("total", String.valueOf(data.getTestCaseCount()));
     }
 
-    private static long countFailures(Map<TestStepResultStatus, Long> counts) {
-        return createNotPassedNotSkippedSet().stream().mapToLong(s -> counts.getOrDefault(s, 0L)).sum();
+    private static long countFailures(EnumMap<TestStepResultStatus, Long> counts) {
+        return createNotPassedNotSkippedSet().stream().mapToLong(counts::get).sum();
     }
 
     private static EnumSet<TestStepResultStatus> createNotPassedNotSkippedSet() {
