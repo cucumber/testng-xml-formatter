@@ -19,7 +19,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.util.AbstractMap.SimpleEntry;
-import java.util.EnumMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -56,7 +55,7 @@ class XmlReportData {
                 .toMillis();
     }
 
-    EnumMap<TestStepResultStatus, Long> getTestCaseStatusCounts() {
+    Map<TestStepResultStatus, Long> getTestCaseStatusCounts() {
         return query.countMostSevereTestStepResultStatus();
     }
 
