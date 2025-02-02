@@ -23,8 +23,8 @@ class MessagesToTestngXmlWriterTest {
         Instant finished = Instant.ofEpochSecond(30);
 
         String html = renderAsJunitXml(
-                Envelope.of(new TestRunStarted(toMessage(started))),
-                Envelope.of(new TestRunFinished(null, true, toMessage(finished), null)));
+                Envelope.of(new TestRunStarted(toMessage(started), null)),
+                Envelope.of(new TestRunFinished(null, true, toMessage(finished), null, null)));
 
         assertThat(html).isEqualTo("" +
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
