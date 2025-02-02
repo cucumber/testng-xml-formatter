@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.3.0] - 2025-02-02
 ### Changed
 - Update dependency io.cucumber:messages up to v27
 - Update dependency io.cucumber:query to v13.0.2
@@ -21,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Java implementation
 
-[Unreleased]: https://github.com/cucumber/testng-xml-formatter/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/cucumber/testng-xml-formatter/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/cucumber/testng-xml-formatter/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/cucumber/testng-xml-formatter/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/cucumber/testng-xml-formatter/compare/84ab54710362cbbfa1545d092fd4c9d0e69f74cf...v0.1.0
