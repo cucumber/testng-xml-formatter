@@ -12,6 +12,7 @@ import io.cucumber.messages.types.TestStep;
 import io.cucumber.messages.types.TestStepFinished;
 import io.cucumber.messages.types.TestStepResult;
 import io.cucumber.messages.types.TestStepResultStatus;
+import io.cucumber.query.Lineage;
 import io.cucumber.query.NamingStrategy;
 import io.cucumber.query.Query;
 
@@ -19,6 +20,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -27,12 +29,20 @@ import java.util.Optional;
 import java.util.Set;
 
 import static io.cucumber.messages.types.TestStepResultStatus.PASSED;
+import static java.util.Comparator.comparing;
+import static java.util.Comparator.naturalOrder;
+import static java.util.Comparator.nullsFirst;
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
 
 class XmlReportData {
 
+    private static final io.cucumber.messages.types.Duration ZERO_DURATION =
+            new io.cucumber.messages.types.Duration(0L, 0L);
+    // By definition, but see https://github.com/cucumber/gherkin/issues/11
+    private static final TestStepResult SCENARIO_WITH_NO_STEPS = new TestStepResult(ZERO_DURATION, null, PASSED, null);
     final Query query = new Query();
-
     private final NamingStrategy namingStrategy;
 
     XmlReportData(NamingStrategy namingStrategy) {
@@ -66,8 +76,9 @@ class XmlReportData {
     String getPickleName(TestCaseStarted testCaseStarted) {
         Pickle pickle = query.findPickleBy(testCaseStarted)
                 .orElseThrow(() -> new IllegalStateException("No pickle for " + testCaseStarted.getId()));
-
-        return query.findNameOf(pickle, namingStrategy);
+        return query.findLineageBy(pickle)
+                .map(lineage -> namingStrategy.reduce(lineage, pickle))
+                .orElseGet(pickle::getName);
     }
 
     List<Entry<String, String>> getStepsAndResult(TestCaseStarted testCaseStarted) {
@@ -107,13 +118,39 @@ class XmlReportData {
     }
 
     Set<Entry<Optional<Feature>, List<TestCaseStarted>>> getAllTestCaseStartedGroupedByFeature() {
-        return query.findAllTestCaseStartedGroupedByFeature().entrySet();
+        return query.findAllTestCaseStarted()
+                .stream()
+                .map(testCaseStarted -> {
+                    Optional<Lineage> astNodes = query.findLineageBy(testCaseStarted);
+                    return new SimpleEntry<>(astNodes, testCaseStarted);
+                })
+                // Sort entries by gherkin document URI for consistent ordering
+                .sorted(comparing(
+                        entry -> entry.getKey()
+                                .flatMap(nodes -> nodes.document().getUri())
+                                .orElse(null),
+                        nullsFirst(naturalOrder())
+                ))
+                .map(entry -> {
+                    // Unpack the now sorted entries
+                    Optional<Feature> feature = entry.getKey().flatMap(Lineage::feature);
+                    TestCaseStarted testcaseStarted = entry.getValue();
+                    return new SimpleEntry<>(feature, testcaseStarted);
+                })
+                // Group into a linked hashmap to preserve order
+                .collect(groupingBy(
+                                SimpleEntry::getKey,
+                                LinkedHashMap::new,
+                                collectingAndThen(
+                                        toList(),
+                                        entries -> entries.stream()
+                                                .map(SimpleEntry::getValue)
+                                                .collect(toList())
+                                )
+                        )
+                )
+                .entrySet();
     }
-
-    private static final io.cucumber.messages.types.Duration ZERO_DURATION =
-            new io.cucumber.messages.types.Duration(0L, 0L);
-    // By definition, but see https://github.com/cucumber/gherkin/issues/11
-    private static final TestStepResult SCENARIO_WITH_NO_STEPS = new TestStepResult(ZERO_DURATION, null, PASSED, null);
 
     TestStepResult getTestCaseStatus(TestCaseStarted testCaseStarted) {
         return query.findMostSevereTestStepResultBy(testCaseStarted)
