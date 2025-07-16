@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>testng-xml-formatter</artifactId>
-    <version>0.4.1-SNAPSHOT</version>
+    <version>0.5.0</version>
     <packaging>jar</packaging>
     <name>TestNG XML Formatter</name>
     <description>Renders Cucumber Messages as TestNG XML</description>
@@ -17,14 +17,14 @@
 
     <properties>
         <project.Automatic-Module-Name>io.cucumber.testngxmlformatter</project.Automatic-Module-Name>
-        <project.build.outputTimestamp>1751911064</project.build.outputTimestamp>
+        <project.build.outputTimestamp>1752709479</project.build.outputTimestamp>
     </properties>
 
     <scm>
         <connection>scm:git:git://github.com/cucumber/testng-xml-formatter.git</connection>
         <developerConnection>scm:git:git@github.com:cucumber/testng-xml-formatter.git</developerConnection>
         <url>git://github.com/cucumber/testng-xml-formatter.git</url>
-        <tag>HEAD</tag>
+        <tag>v0.5.0</tag>
     </scm>
 
     <dependencyManagement>
