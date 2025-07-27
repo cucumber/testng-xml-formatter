@@ -11,6 +11,9 @@
 <message><![CDATA[
 Given a step that always fails..............................................failed
 ]]></message>
+<full-stacktrace>
+<![CDATA[samples/retry/retry.feature:18]]>
+</full-stacktrace>
 </exception>
 </test-method>
 <test-method name="Test cases won't retry when the status is UNDEFINED" status="FAIL" duration-ms="3" started-at="1970-01-01T00:00:00.037Z" finished-at="1970-01-01T00:00:00.040Z">
