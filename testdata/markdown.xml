@@ -12,8 +12,7 @@ When we use a data table and attach something and then fail.................fail
 Then this might or might not run............................................skipped
 ]]></message>
 <full-stacktrace>
-<![CDATA[samples/markdown/markdown.feature.md:24
-samples/markdown/markdown.feature.md:38]]>
+<![CDATA[samples/markdown/markdown.feature.md:24]]>
 </full-stacktrace>
 </exception>
 </test-method>
