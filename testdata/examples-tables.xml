@@ -13,8 +13,7 @@ When I eat 20 cucumbers.....................................................pass
 Then I should have 0 cucumbers..............................................failed
 ]]></message>
 <full-stacktrace>
-<![CDATA[samples/examples-tables/examples-tables.feature:14
-samples/examples-tables/examples-tables.feature:25]]>
+<![CDATA[samples/examples-tables/examples-tables.feature:14]]>
 </full-stacktrace>
 </exception>
 </test-method>
@@ -26,8 +25,7 @@ When I eat 1 cucumbers......................................................pass
 Then I should have 0 cucumbers..............................................failed
 ]]></message>
 <full-stacktrace>
-<![CDATA[samples/examples-tables/examples-tables.feature:14
-samples/examples-tables/examples-tables.feature:26]]>
+<![CDATA[samples/examples-tables/examples-tables.feature:14]]>
 </full-stacktrace>
 </exception>
 </test-method>
