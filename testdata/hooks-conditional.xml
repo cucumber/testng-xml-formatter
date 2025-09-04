@@ -9,7 +9,8 @@
 When a step passes..........................................................skipped
 ]]></message>
 <full-stacktrace>
-<![CDATA[samples/hooks-conditional/hooks-conditional.feature:7]]>
+<![CDATA[Error: Exception in conditional hook
+samples/hooks-conditional/hooks-conditional.feature:7]]>
 </full-stacktrace>
 </exception>
 </test-method>
@@ -19,7 +20,8 @@ When a step passes..........................................................skip
 When a step passes..........................................................passed
 ]]></message>
 <full-stacktrace>
-<![CDATA[samples/hooks-conditional/hooks-conditional.feature:11]]>
+<![CDATA[Error: Exception in conditional hook
+samples/hooks-conditional/hooks-conditional.feature:11]]>
 </full-stacktrace>
 </exception>
 </test-method>

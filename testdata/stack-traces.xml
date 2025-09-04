@@ -9,7 +9,8 @@
 When a step throws an exception.............................................failed
 ]]></message>
 <full-stacktrace>
-<![CDATA[samples/stack-traces/stack-traces.feature:10]]>
+<![CDATA[Error: BOOM
+samples/stack-traces/stack-traces.feature:10]]>
 </full-stacktrace>
 </exception>
 </test-method>

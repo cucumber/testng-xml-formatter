@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testng-results failed="1" passed="1" skipped="0" total="2">
-<suite name="Cucumber" duration-ms="21">
-<test name="Cucumber" duration-ms="21">
+<suite name="Cucumber" duration-ms="23">
+<test name="Cucumber" duration-ms="23">
 <class name="Cheese">
-<test-method name="Nom nom nom - Ylajali! - because we need more tables - #1.1" status="FAIL" duration-ms="9" started-at="1970-01-01T00:00:00.001Z" finished-at="1970-01-01T00:00:00.010Z">
+<test-method name="Nom nom nom - Ylajali! - because we need more tables - #1.1" status="FAIL" duration-ms="10" started-at="1970-01-01T00:00:00.001Z" finished-at="1970-01-01T00:00:00.011Z">
 <exception class="Error">
 <message><![CDATA[
 Given some TypeScript code:.................................................passed
@@ -12,11 +12,12 @@ When we use a data table and attach something and then fail.................fail
 Then this might or might not run............................................skipped
 ]]></message>
 <full-stacktrace>
-<![CDATA[samples/markdown/markdown.feature.md:24]]>
+<![CDATA[Error: You asked me to fail
+samples/markdown/markdown.feature.md:24]]>
 </full-stacktrace>
 </exception>
 </test-method>
-<test-method name="Nom nom nom - Ylajali! - because we need more tables - #1.2" status="PASS" duration-ms="9" started-at="1970-01-01T00:00:00.011Z" finished-at="1970-01-01T00:00:00.020Z"/>
+<test-method name="Nom nom nom - Ylajali! - because we need more tables - #1.2" status="PASS" duration-ms="10" started-at="1970-01-01T00:00:00.012Z" finished-at="1970-01-01T00:00:00.022Z"/>
 </class>
 </test>
 </suite>

@@ -12,7 +12,8 @@
 Given a step that always fails..............................................failed
 ]]></message>
 <full-stacktrace>
-<![CDATA[samples/retry/retry.feature:18]]>
+<![CDATA[Error: Exception in step
+samples/retry/retry.feature:18]]>
 </full-stacktrace>
 </exception>
 </test-method>
