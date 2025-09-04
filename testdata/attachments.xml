@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testng-results failed="0" passed="7" skipped="0" total="7">
-<suite name="Cucumber" duration-ms="29">
-<test name="Cucumber" duration-ms="29">
+<suite name="Cucumber" duration-ms="36">
+<test name="Cucumber" duration-ms="36">
 <class name="Attachments">
-<test-method name="Strings can be attached with a media type" status="PASS" duration-ms="3" started-at="1970-01-01T00:00:00.001Z" finished-at="1970-01-01T00:00:00.004Z"/>
-<test-method name="Log text" status="PASS" duration-ms="3" started-at="1970-01-01T00:00:00.005Z" finished-at="1970-01-01T00:00:00.008Z"/>
-<test-method name="Log ANSI coloured text" status="PASS" duration-ms="3" started-at="1970-01-01T00:00:00.009Z" finished-at="1970-01-01T00:00:00.012Z"/>
-<test-method name="Log JSON" status="PASS" duration-ms="3" started-at="1970-01-01T00:00:00.013Z" finished-at="1970-01-01T00:00:00.016Z"/>
-<test-method name="Byte arrays are base64-encoded regardless of media type" status="PASS" duration-ms="3" started-at="1970-01-01T00:00:00.017Z" finished-at="1970-01-01T00:00:00.020Z"/>
-<test-method name="Attaching PDFs with a different filename" status="PASS" duration-ms="3" started-at="1970-01-01T00:00:00.021Z" finished-at="1970-01-01T00:00:00.024Z"/>
-<test-method name="Attaching URIs" status="PASS" duration-ms="3" started-at="1970-01-01T00:00:00.025Z" finished-at="1970-01-01T00:00:00.028Z"/>
+<test-method name="Strings can be attached with a media type" status="PASS" duration-ms="4" started-at="1970-01-01T00:00:00.001Z" finished-at="1970-01-01T00:00:00.005Z"/>
+<test-method name="Log text" status="PASS" duration-ms="4" started-at="1970-01-01T00:00:00.006Z" finished-at="1970-01-01T00:00:00.010Z"/>
+<test-method name="Log ANSI coloured text" status="PASS" duration-ms="4" started-at="1970-01-01T00:00:00.011Z" finished-at="1970-01-01T00:00:00.015Z"/>
+<test-method name="Log JSON" status="PASS" duration-ms="4" started-at="1970-01-01T00:00:00.016Z" finished-at="1970-01-01T00:00:00.020Z"/>
+<test-method name="Byte arrays are base64-encoded regardless of media type" status="PASS" duration-ms="4" started-at="1970-01-01T00:00:00.021Z" finished-at="1970-01-01T00:00:00.025Z"/>
+<test-method name="Attaching PDFs with a different filename" status="PASS" duration-ms="4" started-at="1970-01-01T00:00:00.026Z" finished-at="1970-01-01T00:00:00.030Z"/>
+<test-method name="Attaching URIs" status="PASS" duration-ms="4" started-at="1970-01-01T00:00:00.031Z" finished-at="1970-01-01T00:00:00.035Z"/>
 </class>
 </test>
 </suite>

@@ -10,7 +10,8 @@
 When a step fails...........................................................failed
 ]]></message>
 <full-stacktrace>
-<![CDATA[samples/hooks/hooks.feature:8]]>
+<![CDATA[Error: Exception in step
+samples/hooks/hooks.feature:8]]>
 </full-stacktrace>
 </exception>
 </test-method>

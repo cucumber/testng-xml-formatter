@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testng-results failed="0" passed="2" skipped="0" total="2">
-<suite name="Cucumber" duration-ms="9">
-<test name="Cucumber" duration-ms="9">
+<suite name="Cucumber" duration-ms="11">
+<test name="Cucumber" duration-ms="11">
 <class name="Examples Tables - With attachments">
-<test-method name="Attaching images in an examples table - #1.1" status="PASS" duration-ms="3" started-at="1970-01-01T00:00:00.001Z" finished-at="1970-01-01T00:00:00.004Z"/>
-<test-method name="Attaching images in an examples table - #1.2" status="PASS" duration-ms="3" started-at="1970-01-01T00:00:00.005Z" finished-at="1970-01-01T00:00:00.008Z"/>
+<test-method name="Attaching images in an examples table - #1.1" status="PASS" duration-ms="4" started-at="1970-01-01T00:00:00.001Z" finished-at="1970-01-01T00:00:00.005Z"/>
+<test-method name="Attaching images in an examples table - #1.2" status="PASS" duration-ms="4" started-at="1970-01-01T00:00:00.006Z" finished-at="1970-01-01T00:00:00.010Z"/>
 </class>
 </test>
 </suite>
