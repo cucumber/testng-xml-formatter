@@ -30,7 +30,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import static io.cucumber.messages.types.TestStepResultStatus.PASSED;
-import static io.cucumber.query.Repository.RepositoryFeature.INCLUDE_GHERKIN_DOCUMENT;
+import static io.cucumber.query.Repository.RepositoryFeature.INCLUDE_GHERKIN_DOCUMENTS;
 import static java.util.Comparator.comparing;
 import static java.util.Comparator.naturalOrder;
 import static java.util.Comparator.nullsFirst;
@@ -45,7 +45,7 @@ class XmlReportData {
     // By definition, but see https://github.com/cucumber/gherkin/issues/11
     private static final TestStepResult SCENARIO_WITH_NO_STEPS = new TestStepResult(ZERO_DURATION, null, PASSED, null);
     private final Repository repository = Repository.builder()
-            .feature(INCLUDE_GHERKIN_DOCUMENT, true)
+            .feature(INCLUDE_GHERKIN_DOCUMENTS, true)
             .build();
     private final Query query = new Query(repository);
     private final NamingStrategy namingStrategy;
