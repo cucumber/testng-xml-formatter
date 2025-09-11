@@ -15,6 +15,7 @@ import io.cucumber.messages.types.TestStepResultStatus;
 import io.cucumber.query.Lineage;
 import io.cucumber.query.NamingStrategy;
 import io.cucumber.query.Query;
+import io.cucumber.query.Repository;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -29,6 +30,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import static io.cucumber.messages.types.TestStepResultStatus.PASSED;
+import static io.cucumber.query.Repository.RepositoryFeature.INCLUDE_GHERKIN_DOCUMENTS;
 import static java.util.Comparator.comparing;
 import static java.util.Comparator.naturalOrder;
 import static java.util.Comparator.nullsFirst;
@@ -42,7 +44,10 @@ class XmlReportData {
             new io.cucumber.messages.types.Duration(0L, 0L);
     // By definition, but see https://github.com/cucumber/gherkin/issues/11
     private static final TestStepResult SCENARIO_WITH_NO_STEPS = new TestStepResult(ZERO_DURATION, null, PASSED, null);
-    final Query query = new Query();
+    private final Repository repository = Repository.builder()
+            .feature(INCLUDE_GHERKIN_DOCUMENTS, true)
+            .build();
+    private final Query query = new Query(repository);
     private final NamingStrategy namingStrategy;
 
     XmlReportData(NamingStrategy namingStrategy) {
@@ -50,7 +55,7 @@ class XmlReportData {
     }
 
     void collect(Envelope envelope) {
-        query.update(envelope);
+        repository.update(envelope);
     }
 
     long getSuiteDurationInMilliSeconds() {
