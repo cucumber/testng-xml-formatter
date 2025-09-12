@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results failed="0" passed="9" skipped="0" total="9">
+<suite name="Cucumber" duration-ms="37">
+<test name="Cucumber" duration-ms="37">
+<class name="First feature">
+<test-method name="Third scenario" status="PASS" duration-ms="3" started-at="1970-01-01T00:00:00.025Z" finished-at="1970-01-01T00:00:00.028Z"/>
+<test-method name="Second scenario" status="PASS" duration-ms="3" started-at="1970-01-01T00:00:00.029Z" finished-at="1970-01-01T00:00:00.032Z"/>
+<test-method name="First scenario" status="PASS" duration-ms="3" started-at="1970-01-01T00:00:00.033Z" finished-at="1970-01-01T00:00:00.036Z"/>
+</class>
+<class name="Second feature">
+<test-method name="Third scenario" status="PASS" duration-ms="3" started-at="1970-01-01T00:00:00.013Z" finished-at="1970-01-01T00:00:00.016Z"/>
+<test-method name="Second scenario" status="PASS" duration-ms="3" started-at="1970-01-01T00:00:00.017Z" finished-at="1970-01-01T00:00:00.020Z"/>
+<test-method name="First scenario" status="PASS" duration-ms="3" started-at="1970-01-01T00:00:00.021Z" finished-at="1970-01-01T00:00:00.024Z"/>
+</class>
+<class name="Third feature">
+<test-method name="Third scenario" status="PASS" duration-ms="3" started-at="1970-01-01T00:00:00.001Z" finished-at="1970-01-01T00:00:00.004Z"/>
+<test-method name="Second scenario" status="PASS" duration-ms="3" started-at="1970-01-01T00:00:00.005Z" finished-at="1970-01-01T00:00:00.008Z"/>
+<test-method name="First scenario" status="PASS" duration-ms="3" started-at="1970-01-01T00:00:00.009Z" finished-at="1970-01-01T00:00:00.012Z"/>
+</class>
+</test>
+</suite>
+</testng-results>

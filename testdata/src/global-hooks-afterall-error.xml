@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testng-results failed="0" passed="1" skipped="0" total="1">
-<suite name="Cucumber" duration-ms="13">
-<test name="Cucumber" duration-ms="13">
+<suite name="Cucumber" duration-ms="15">
+<test name="Cucumber" duration-ms="15">
 <class name="Global hooks - AfterAll error">
 <test-method name="A passing scenario" status="PASS" duration-ms="3" started-at="1970-01-01T00:00:00.005Z" finished-at="1970-01-01T00:00:00.008Z"/>
 </class>

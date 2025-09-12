@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results failed="2" passed="3" skipped="0" total="5">
-<suite name="Cucumber" duration-ms="41">
-<test name="Cucumber" duration-ms="41">
+<testng-results failed="4" passed="3" skipped="0" total="7">
+<suite name="Cucumber" duration-ms="49">
+<test name="Cucumber" duration-ms="49">
 <class name="Retry">
 <test-method name="Test cases that pass aren't retried" status="PASS" duration-ms="3" started-at="1970-01-01T00:00:00.001Z" finished-at="1970-01-01T00:00:00.004Z"/>
 <test-method name="Test cases that fail are retried if within the --retry limit" status="PASS" duration-ms="3" started-at="1970-01-01T00:00:00.009Z" finished-at="1970-01-01T00:00:00.012Z"/>
@@ -17,7 +17,27 @@ samples/retry/retry.feature:18]]>
 </full-stacktrace>
 </exception>
 </test-method>
-<test-method name="Test cases won't retry when the status is UNDEFINED" status="FAIL" duration-ms="3" started-at="1970-01-01T00:00:00.037Z" finished-at="1970-01-01T00:00:00.040Z">
+<test-method name="Test cases won't retry when the status is AMBIGUOUS" status="FAIL" duration-ms="3" started-at="1970-01-01T00:00:00.037Z" finished-at="1970-01-01T00:00:00.040Z">
+<exception class="The scenario has undefined step(s)">
+<message><![CDATA[
+Given an ambiguous step.....................................................ambiguous
+]]></message>
+<full-stacktrace>
+<![CDATA[The scenario has undefined step(s)]]>
+</full-stacktrace>
+</exception>
+</test-method>
+<test-method name="Test cases won't retry when the status is PENDING" status="FAIL" duration-ms="3" started-at="1970-01-01T00:00:00.041Z" finished-at="1970-01-01T00:00:00.044Z">
+<exception class="The scenario has undefined step(s)">
+<message><![CDATA[
+Given a pending step........................................................pending
+]]></message>
+<full-stacktrace>
+<![CDATA[The scenario has undefined step(s)]]>
+</full-stacktrace>
+</exception>
+</test-method>
+<test-method name="Test cases won't retry when the status is UNDEFINED" status="FAIL" duration-ms="3" started-at="1970-01-01T00:00:00.045Z" finished-at="1970-01-01T00:00:00.048Z">
 <exception class="The scenario has undefined step(s)">
 <message><![CDATA[
 Given a non-existent step...................................................undefined
