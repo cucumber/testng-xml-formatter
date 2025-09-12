@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testng-results failed="0" passed="0" skipped="0" total="0">
-<suite name="Cucumber" duration-ms="5">
-<test name="Cucumber" duration-ms="5">
+<suite name="Cucumber" duration-ms="11">
+<test name="Cucumber" duration-ms="11">
 </test>
 </suite>
 </testng-results>
