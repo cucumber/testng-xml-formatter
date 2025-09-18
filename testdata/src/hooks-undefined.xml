@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results failed="1" passed="0" skipped="0" total="1">
+<suite name="Cucumber" duration-ms="9">
+<test name="Cucumber" duration-ms="9">
+<class name="Hooks - With Undefined Steps">
+<test-method name="No tags and a undefined step" status="FAIL" duration-ms="7" started-at="1970-01-01T00:00:00.001Z" finished-at="1970-01-01T00:00:00.008Z">
+<exception class="The scenario has undefined step(s)">
+<message><![CDATA[
+When a step does not exist..................................................undefined
+]]></message>
+<full-stacktrace>
+<![CDATA[The scenario has undefined step(s)]]>
+</full-stacktrace>
+</exception>
+</test-method>
+</class>
+</test>
+</suite>
+</testng-results>

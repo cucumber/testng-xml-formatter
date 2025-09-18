@@ -49,7 +49,7 @@ class MessagesToTestngXmlWriterAcceptanceTest {
     @ParameterizedTest
     @MethodSource("acceptance")
     @Disabled
-    void updateExpectedXmlReportFiles(TestCase testCase) throws IOException {
+    void updateExpectedFiles(TestCase testCase) throws IOException {
         try (OutputStream out = Files.newOutputStream(testCase.expected)) {
             writeTestngXmlReport(testCase, out);
         }
