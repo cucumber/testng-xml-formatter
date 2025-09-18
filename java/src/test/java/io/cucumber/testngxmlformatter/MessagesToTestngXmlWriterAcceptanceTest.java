@@ -2,6 +2,7 @@ package io.cucumber.testngxmlformatter;
 
 import io.cucumber.messages.NdjsonToMessageIterable;
 import io.cucumber.messages.types.Envelope;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -15,13 +16,17 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static io.cucumber.testngxmlformatter.Jackson.OBJECT_MAPPER;
+import static io.cucumber.testngxmlformatter.MessageOrderer.simulateParallelExecution;
+import static java.nio.file.Files.readAllBytes;
 import static org.xmlunit.assertj.XmlAssert.assertThat;
 
 class MessagesToTestngXmlWriterAcceptanceTest {
@@ -45,7 +50,16 @@ class MessagesToTestngXmlWriterAcceptanceTest {
         Source actual = Input.fromByteArray(bytes.toByteArray()).build();
         assertThat(actual).and(expected).ignoreWhitespace().areIdentical();
     }
-
+    
+    @ParameterizedTest
+    @MethodSource("acceptance")
+    void testWithSimulatedParallelExecution(TestCase testCase) throws IOException {
+        ByteArrayOutputStream bytes = writeTestngXmlReport(testCase, new ByteArrayOutputStream(), simulateParallelExecution());
+        Source expected = Input.fromPath(testCase.expected).build();
+        Source actual = Input.fromByteArray(bytes.toByteArray()).build();
+        assertThat(actual).and(expected).ignoreWhitespace().areIdentical();
+    }
+    
     @ParameterizedTest
     @MethodSource("acceptance")
     @Disabled
@@ -55,19 +69,30 @@ class MessagesToTestngXmlWriterAcceptanceTest {
         }
     }
 
-    private static <T extends OutputStream> T writeTestngXmlReport(TestCase testCase, T out) throws IOException {
+    private static <T extends OutputStream> T writeTestngXmlReport(TestCase testCase, T out, Consumer<List<Envelope>> orderer) throws IOException {
+        List<Envelope> messages = new ArrayList<>();
         try (InputStream in = Files.newInputStream(testCase.source)) {
             try (NdjsonToMessageIterable envelopes = new NdjsonToMessageIterable(in, deserializer)) {
-                try (MessagesToTestngXmlWriter writer = new MessagesToTestngXmlWriter(out)) {
-                    for (Envelope envelope : envelopes) {
-                        writer.write(envelope);
-                    }
+                for (Envelope envelope : envelopes) {
+                    messages.add(envelope);
                 }
             }
         }
+        orderer.accept(messages);
+
+        try (MessagesToTestngXmlWriter writer = new MessagesToTestngXmlWriter(out)) {
+            for (Envelope envelope : messages) {
+                writer.write(envelope);
+            }
+        }
+        
         return out;
     }
 
+    private static <T extends OutputStream> T writeTestngXmlReport(TestCase testCase, T out) throws IOException {
+        return writeTestngXmlReport(testCase, out, MessageOrderer.originalOrder());
+    }
+    
     static class TestCase {
         private final Path source;
         private final Path expected;
