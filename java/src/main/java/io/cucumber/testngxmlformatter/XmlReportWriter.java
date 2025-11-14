@@ -50,8 +50,8 @@ class XmlReportWriter {
         Map<TestStepResultStatus, Long> counts = data.getTestCaseStatusCounts();
 
         writer.writeAttribute("failed", String.valueOf(countFailures(counts)));
-        writer.writeAttribute("passed", counts.get(PASSED).toString());
-        writer.writeAttribute("skipped", counts.get(SKIPPED).toString());
+        writer.writeAttribute("passed", String.valueOf(counts.get(PASSED)));
+        writer.writeAttribute("skipped", String.valueOf(counts.get(SKIPPED)));
         writer.writeAttribute("total", String.valueOf(data.getTestCaseCount()));
     }
 
@@ -142,14 +142,11 @@ class XmlReportWriter {
     }
 
     private String writeStatus(TestStepResult status) {
-        switch (status.getStatus()) {
-            case PASSED:
-                return "PASS";
-            case SKIPPED:
-                return "SKIP";
-            default:
-                return "FAIL";
-        }
+        return switch (status.getStatus()) {
+            case PASSED -> "PASS";
+            case SKIPPED -> "SKIP";
+            default -> "FAIL";
+        };
     }
 
     private void writeException(EscapingXmlStreamWriter writer, TestCaseStarted testCaseStarted, TestStepResult result) throws XMLStreamException {
@@ -216,9 +213,7 @@ class XmlReportWriter {
             String status = r.getValue();
             sb.append(stepText);
             sb.append(".");
-            for (int i = 75 - stepText.length(); i > 0; i--) {
-                sb.append(".");
-            }
+            sb.append(".".repeat(Math.max(0, 75 - stepText.length())));
             sb.append(status);
             sb.append("\n");
         });

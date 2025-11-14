@@ -22,10 +22,11 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static io.cucumber.testngxmlformatter.Jackson.OBJECT_MAPPER;
+import static java.util.Objects.requireNonNull;
 import static org.xmlunit.assertj.XmlAssert.assertThat;
 
 class MessagesToTestngXmlWriterAcceptanceTest {
-    private static final NdjsonToMessageIterable.Deserializer deserializer = (json) -> OBJECT_MAPPER.readValue(json, Envelope.class);
+    private static final NdjsonToMessageIterable.Deserializer deserializer = json -> OBJECT_MAPPER.readValue(json, Envelope.class);
 
     static List<TestCase> acceptance() throws IOException {
         try (Stream<Path> paths = Files.list(Paths.get("../testdata/src"))) {
@@ -68,17 +69,16 @@ class MessagesToTestngXmlWriterAcceptanceTest {
         return out;
     }
 
-    static class TestCase {
+    private static final class TestCase {
         private final Path source;
         private final Path expected;
-
         private final String name;
 
         TestCase(Path source) {
             this.source = source;
             String fileName = source.getFileName().toString();
             this.name = fileName.substring(0, fileName.lastIndexOf(".ndjson"));
-            this.expected = source.getParent().resolve(name + ".xml");
+            this.expected = requireNonNull(source.getParent()).resolve(name + ".xml");
         }
 
         @Override
@@ -88,15 +88,13 @@ class MessagesToTestngXmlWriterAcceptanceTest {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            TestCase testCase = (TestCase) o;
-            return source.equals(testCase.source);
+            if (!(o instanceof TestCase testCase)) return false;
+            return Objects.equals(source, testCase.source) && Objects.equals(expected, testCase.expected) && Objects.equals(name, testCase.name);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(source);
+            return Objects.hash(source, expected, name);
         }
     }
 
