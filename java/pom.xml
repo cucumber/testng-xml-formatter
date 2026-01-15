@@ -16,7 +16,6 @@
     <url>https://github.com/cucumber/testng-xml-formatter</url>
 
     <properties>
-        <osgi.bundle-symbolic-name>io.cucumber.testngxmlformatter</osgi.bundle-symbolic-name>
         <project.build.outputTimestamp>1761578901</project.build.outputTimestamp>
     </properties>
 
