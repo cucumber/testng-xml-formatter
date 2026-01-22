@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Changed
 - Set release version to 17 ([#30](https://github.com/cucumber/testng-xml-formatter/pull/30))
+- Write test cases in canonical order ([#24](https://github.com/cucumber/testng-xml-formatter/pull/24))
 
 ## [0.7.0] - 2025-10-27
 ### Changed
