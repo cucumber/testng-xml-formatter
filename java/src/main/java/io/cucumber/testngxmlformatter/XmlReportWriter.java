@@ -86,7 +86,8 @@ class XmlReportWriter {
         writeTestAttributes(writer);
         writer.writeNewLine();
 
-        for (Entry<Optional<Feature>, List<TestCaseStarted>> entry : data.getAllTestCaseStartedGroupedByFeature()) {
+        Set<Entry<Optional<Feature>, List<TestCaseStarted>>> allTestCaseStartedGroupedByFeature = data.getAllTestCaseStartedGroupedByFeature();
+        for (Entry<Optional<Feature>, List<TestCaseStarted>> entry : allTestCaseStartedGroupedByFeature) {
             writer.writeStartElement("class");
             String featureName = entry.getKey()
                     .map(Feature::getName)
