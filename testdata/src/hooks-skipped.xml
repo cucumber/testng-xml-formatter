@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results failed="0" passed="0" skipped="3" total="3">
+<suite name="Cucumber" duration-ms="41">
+<test name="Cucumber" duration-ms="41">
+<class name="Hooks and skipped">
+<test-method name="Skip from a step" status="SKIP" duration-ms="11" started-at="1970-01-01T00:00:00.001Z" finished-at="1970-01-01T00:00:00.012Z">
+<exception class="The scenario has skipped step(s)">
+<message><![CDATA[
+Given a step that skips.....................................................skipped
+]]></message>
+<full-stacktrace>
+<![CDATA[The scenario has skipped step(s)]]>
+</full-stacktrace>
+</exception>
+</test-method>
+<test-method name="Skip from a Before hook" status="SKIP" duration-ms="13" started-at="1970-01-01T00:00:00.013Z" finished-at="1970-01-01T00:00:00.026Z">
+<exception class="The scenario has skipped step(s)">
+<message><![CDATA[
+Given a normal step.........................................................skipped
+]]></message>
+<full-stacktrace>
+<![CDATA[The scenario has skipped step(s)]]>
+</full-stacktrace>
+</exception>
+</test-method>
+<test-method name="Skip from an After hook" status="SKIP" duration-ms="13" started-at="1970-01-01T00:00:00.027Z" finished-at="1970-01-01T00:00:00.040Z">
+<exception class="The scenario has skipped step(s)">
+<message><![CDATA[
+Given a normal step.........................................................passed
+]]></message>
+<full-stacktrace>
+<![CDATA[The scenario has skipped step(s)]]>
+</full-stacktrace>
+</exception>
+</test-method>
+</class>
+</test>
+</suite>
+</testng-results>

@@ -1,6 +1,7 @@
 package io.cucumber.testngxmlformatter;
 
-import io.cucumber.messages.NdjsonToMessageIterable;
+import io.cucumber.messages.NdjsonToMessageReader;
+import io.cucumber.messages.ndjson.Deserializer;
 import io.cucumber.messages.types.Envelope;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -10,7 +11,6 @@ import org.xmlunit.builder.Input;
 import javax.xml.transform.Source;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -21,13 +21,10 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static io.cucumber.testngxmlformatter.Jackson.OBJECT_MAPPER;
 import static java.util.Objects.requireNonNull;
 import static org.xmlunit.assertj.XmlAssert.assertThat;
 
 class MessagesToTestngXmlWriterAcceptanceTest {
-    private static final NdjsonToMessageIterable.Deserializer deserializer = json -> OBJECT_MAPPER.readValue(json, Envelope.class);
-
     static List<TestCase> acceptance() throws IOException {
         try (Stream<Path> paths = Files.list(Paths.get("../testdata/src"))) {
             return paths
@@ -57,10 +54,11 @@ class MessagesToTestngXmlWriterAcceptanceTest {
     }
 
     private static <T extends OutputStream> T writeTestngXmlReport(TestCase testCase, T out) throws IOException {
-        try (InputStream in = Files.newInputStream(testCase.source)) {
-            try (NdjsonToMessageIterable envelopes = new NdjsonToMessageIterable(in, deserializer)) {
-                try (MessagesToTestngXmlWriter writer = new MessagesToTestngXmlWriter(out)) {
-                    for (Envelope envelope : envelopes) {
+        try (var in = Files.newInputStream(testCase.source)) {
+            try (var reader = new NdjsonToMessageReader(in, new Deserializer())) {
+                List<Envelope> messages = reader.lines().toList();
+                try (var writer = new MessagesToTestngXmlWriter(out)) {
+                    for (Envelope envelope : messages) {
                         writer.write(envelope);
                     }
                 }
