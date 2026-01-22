@@ -1,6 +1,7 @@
 package io.cucumber.testngxmlformatter;
 
 import io.cucumber.messages.Convertor;
+import io.cucumber.messages.LocationComparator;
 import io.cucumber.messages.types.Envelope;
 import io.cucumber.messages.types.Feature;
 import io.cucumber.messages.types.Pickle;
@@ -21,6 +22,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -122,25 +124,15 @@ class XmlReportData {
         return stepKeyWord + stepText;
     }
 
+    private static final Comparator<Pickle> pickleComparator = Comparator.comparing(Pickle::getUri)
+            .thenComparing(pickle -> pickle.getLocation().orElse(null), nullsFirst(new LocationComparator()));
+
     Set<Entry<Optional<Feature>, List<TestCaseStarted>>> getAllTestCaseStartedGroupedByFeature() {
-        return query.findAllTestCaseStarted()
+        return query.findAllTestCaseStartedOrderBy(Query::findPickleBy, pickleComparator)
                 .stream()
                 .map(testCaseStarted -> {
-                    Optional<Lineage> astNodes = query.findLineageBy(testCaseStarted);
-                    return new SimpleEntry<>(astNodes, testCaseStarted);
-                })
-                // Sort entries by gherkin document URI for consistent ordering
-                .sorted(comparing(
-                        entry -> entry.getKey()
-                                .flatMap(nodes -> nodes.document().getUri())
-                                .orElse(null),
-                        nullsFirst(naturalOrder())
-                ))
-                .map(entry -> {
-                    // Unpack the now sorted entries
-                    Optional<Feature> feature = entry.getKey().flatMap(Lineage::feature);
-                    TestCaseStarted testcaseStarted = entry.getValue();
-                    return new SimpleEntry<>(feature, testcaseStarted);
+                    var feature = query.findLineageBy(testCaseStarted).flatMap(Lineage::feature);
+                    return new SimpleEntry<>(feature, testCaseStarted);
                 })
                 // Group into a linked hashmap to preserve order
                 .collect(groupingBy(
