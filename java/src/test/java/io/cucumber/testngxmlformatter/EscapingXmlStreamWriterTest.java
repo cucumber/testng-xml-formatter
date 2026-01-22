@@ -64,7 +64,7 @@ class EscapingXmlStreamWriterTest {
     }
 
     private static String asString(ByteArrayOutputStream out) {
-        String s = new String(out.toByteArray(), UTF_8);
+        String s = out.toString(UTF_8);
         return removeXmlHeader(s);
     }
 

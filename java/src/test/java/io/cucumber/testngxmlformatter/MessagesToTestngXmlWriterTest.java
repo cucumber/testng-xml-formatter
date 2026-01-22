@@ -3,6 +3,7 @@ package io.cucumber.testngxmlformatter;
 import io.cucumber.messages.types.Envelope;
 import io.cucumber.messages.types.TestRunFinished;
 import io.cucumber.messages.types.TestRunStarted;
+import io.cucumber.messages.types.Timestamp;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -26,28 +27,30 @@ class MessagesToTestngXmlWriterTest {
                 Envelope.of(new TestRunStarted(toMessage(started), null)),
                 Envelope.of(new TestRunFinished(null, true, toMessage(finished), null, null)));
 
-        assertThat(html).isEqualTo("" +
-                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<testng-results failed=\"0\" passed=\"0\" skipped=\"0\" total=\"0\">\n" +
-                "<suite name=\"Cucumber\" duration-ms=\"20000\">\n" +
-                "<test name=\"Cucumber\" duration-ms=\"20000\">\n" +
-                "</test>\n" +
-                "</suite>\n" +
-                "</testng-results>\n"
+        assertThat(html).isEqualTo("""
+                <?xml version="1.0" encoding="UTF-8"?>
+                <testng-results failed="0" passed="0" skipped="0" total="0">
+                <suite name="Cucumber" duration-ms="20000">
+                <test name="Cucumber" duration-ms="20000">
+                </test>
+                </suite>
+                </testng-results>
+                """
         );
     }
 
     @Test
     void it_writes_no_message_to_xml() throws IOException {
         String html = renderAsJunitXml();
-        assertThat(html).isEqualTo("" +
-                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<testng-results failed=\"0\" passed=\"0\" skipped=\"0\" total=\"0\">\n" +
-                "<suite name=\"Cucumber\" duration-ms=\"0\">\n" +
-                "<test name=\"Cucumber\" duration-ms=\"0\">\n" +
-                "</test>\n" +
-                "</suite>\n" +
-                "</testng-results>\n"
+        assertThat(html).isEqualTo("""
+                <?xml version="1.0" encoding="UTF-8"?>
+                <testng-results failed="0" passed="0" skipped="0" total="0">
+                <suite name="Cucumber" duration-ms="0">
+                <test name="Cucumber" duration-ms="0">
+                </test>
+                </suite>
+                </testng-results>
+                """
         );
     }
 
@@ -56,7 +59,9 @@ class MessagesToTestngXmlWriterTest {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         MessagesToTestngXmlWriter messagesToHtmlWriter = new MessagesToTestngXmlWriter(bytes);
         messagesToHtmlWriter.close();
-        assertThrows(IOException.class, () -> messagesToHtmlWriter.write(null));
+        assertThrows(IOException.class, () -> messagesToHtmlWriter.write(
+                Envelope.of(new TestRunStarted(new Timestamp(0L, 0), ""))
+        ));
     }
 
     @Test
@@ -92,6 +97,6 @@ class MessagesToTestngXmlWriterTest {
             }
         }
 
-        return new String(bytes.toByteArray(), UTF_8);
+        return bytes.toString(UTF_8);
     }
 }

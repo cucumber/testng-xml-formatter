@@ -41,7 +41,7 @@ import static java.util.stream.Collectors.toList;
 class XmlReportData {
 
     private static final io.cucumber.messages.types.Duration ZERO_DURATION =
-            new io.cucumber.messages.types.Duration(0L, 0L);
+            new io.cucumber.messages.types.Duration(0L, 0);
     // By definition, but see https://github.com/cucumber/gherkin/issues/11
     private static final TestStepResult SCENARIO_WITH_NO_STEPS = new TestStepResult(ZERO_DURATION, null, PASSED, null);
     private final Repository repository = Repository.builder()
