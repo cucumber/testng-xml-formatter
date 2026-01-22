@@ -33,8 +33,6 @@ import java.util.Set;
 
 import static io.cucumber.messages.types.TestStepResultStatus.PASSED;
 import static io.cucumber.query.Repository.RepositoryFeature.INCLUDE_GHERKIN_DOCUMENTS;
-import static java.util.Comparator.comparing;
-import static java.util.Comparator.naturalOrder;
 import static java.util.Comparator.nullsFirst;
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.groupingBy;

@@ -27,6 +27,7 @@ import static java.util.stream.Collectors.toList;
 import static org.xmlunit.assertj.XmlAssert.assertThat;
 
 class MessagesToTestngXmlWriterAcceptanceTest {
+
     private static final Random random = new Random(202509282040L);
     private static final MessageOrderer messageOrderer = new MessageOrderer(random);
 
