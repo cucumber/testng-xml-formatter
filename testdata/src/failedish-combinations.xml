@@ -53,14 +53,14 @@ samples/failedish-combinations/failedish-combinations.feature:23]]>
 </exception>
 </test-method>
 <test-method name="Failed and pending steps do not follow a failed-ish step - Pending as the first failed-ish step" status="FAIL" duration-ms="7" started-at="1970-01-01T00:00:00.033Z" finished-at="1970-01-01T00:00:00.040Z">
-<exception class="The scenario has undefined step(s)">
+<exception class="The scenario has pending step(s)">
 <message><![CDATA[
 Given a pending step........................................................pending
 And a pending step..........................................................skipped
 And a failing step..........................................................skipped
 ]]></message>
 <full-stacktrace>
-<![CDATA[The scenario has undefined step(s)]]>
+<![CDATA[The scenario has pending step(s)]]>
 </full-stacktrace>
 </exception>
 </test-method>
