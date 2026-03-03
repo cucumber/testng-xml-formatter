@@ -9,21 +9,21 @@
     </parent>
 
     <artifactId>testng-xml-formatter</artifactId>
-    <version>0.8.1</version>
+    <version>0.8.2-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>TestNG XML Formatter</name>
     <description>Renders Cucumber Messages as TestNG XML</description>
     <url>https://github.com/cucumber/testng-xml-formatter</url>
 
     <properties>
-        <project.build.outputTimestamp>1772549640</project.build.outputTimestamp>
+        <project.build.outputTimestamp>1772549643</project.build.outputTimestamp>
     </properties>
 
     <scm>
         <connection>scm:git:git://github.com/cucumber/testng-xml-formatter.git</connection>
         <developerConnection>scm:git:git@github.com:cucumber/testng-xml-formatter.git</developerConnection>
         <url>git://github.com/cucumber/testng-xml-formatter.git</url>
-        <tag>v0.8.1</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <dependencyManagement>
