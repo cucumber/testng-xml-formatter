@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results failed="1" passed="0" skipped="0" total="1">
+<suite name="Cucumber" duration-ms="7">
+<test name="Cucumber" duration-ms="7">
+<class name="Skipped followed by failing hook">
+<test-method name="Failure in an After hook" status="FAIL" duration-ms="5" started-at="1970-01-01T00:00:00.001Z" finished-at="1970-01-01T00:00:00.006Z">
+<exception class="Error">
+<message><![CDATA[
+Given a step that skips.....................................................skipped
+]]></message>
+<full-stacktrace>
+<![CDATA[Error: whoops
+samples/skipped-failing-hook/skipped-failing-hook.feature:6]]>
+</full-stacktrace>
+</exception>
+</test-method>
+</class>
+</test>
+</suite>
+</testng-results>

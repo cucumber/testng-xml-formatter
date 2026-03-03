@@ -152,7 +152,7 @@ class XmlReportWriter {
 
     private void writeException(EscapingXmlStreamWriter writer, TestCaseStarted testCaseStarted, TestStepResult result) throws XMLStreamException {
         Exception exceptionOrSkippedOrUndefined = result.getException()
-                .orElseGet(undefinedOrSkippedException(result.getStatus()));
+                .orElseGet(undefinedSkippedOrPendingException(result.getStatus()));
         Optional<String> stackTrace = exceptionOrSkippedOrUndefined.getStackTrace();
         writer.writeStartElement("exception");
         writeExceptionAttributes(writer, exceptionOrSkippedOrUndefined);
@@ -174,21 +174,29 @@ class XmlReportWriter {
 
     }
 
-    private static Supplier<Exception> undefinedOrSkippedException(TestStepResultStatus status) {
-        if (status == SKIPPED) {
-            // Skipped may not be caused by an exception, i.e. `return "skipped` in JS or Ruby.
-            return () -> new Exception(
-                    "The scenario has skipped step(s)",
+    private static Supplier<Exception> undefinedSkippedOrPendingException(TestStepResultStatus status) {
+        return switch (status) {
+            case SKIPPED ->
+                // Skipped may not be caused by an exception, i.e. `return "skipped` in JS or Ruby.
+                    () -> new Exception(
+                            "The scenario has skipped step(s)",
+                            null,
+                            "The scenario has skipped step(s)"
+                    );
+            // Pending usually comes from an exception, but not always
+            case PENDING -> () -> new Exception(
+                    "The scenario has pending step(s)",
                     null,
-                    "The scenario has skipped step(s)"
+                    "The scenario has pending step(s)"
             );
-        }
-        // Undefined is not caused by an exception
-        return () -> new Exception(
-                "The scenario has undefined step(s)",
-                null,
-                "The scenario has undefined step(s)"
-        );
+            default ->
+                // Undefined is not caused by an exception
+                    () -> new Exception(
+                            "The scenario has undefined step(s)",
+                            null,
+                            "The scenario has undefined step(s)"
+                    );
+        };
     }
 
     private void writeExceptionAttributes(EscapingXmlStreamWriter writer, Exception exception) throws XMLStreamException {
