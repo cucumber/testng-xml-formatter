@@ -54,14 +54,14 @@ And a step..................................................................skip
 </exception>
 </test-method>
 <test-method name="Ambiguous" status="FAIL" duration-ms="7" started-at="1970-01-01T00:00:00.041Z" finished-at="1970-01-01T00:00:00.048Z">
-<exception class="The scenario has undefined step(s)">
+<exception class="The scenario has ambiguous step(s)">
 <message><![CDATA[
 Given a step................................................................passed
 And an ambiguous step.......................................................ambiguous
 And a step..................................................................skipped
 ]]></message>
 <full-stacktrace>
-<![CDATA[The scenario has undefined step(s)]]>
+<![CDATA[The scenario has ambiguous step(s)]]>
 </full-stacktrace>
 </exception>
 </test-method>

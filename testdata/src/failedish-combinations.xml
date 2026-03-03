@@ -4,38 +4,38 @@
 <test name="Cucumber" duration-ms="73">
 <class name="Failed-ish combinations">
 <test-method name="Undefined and ambiguous steps can follow a failed-ish step - Pending as the first failed-ish step" status="FAIL" duration-ms="7" started-at="1970-01-01T00:00:00.001Z" finished-at="1970-01-01T00:00:00.008Z">
-<exception class="The scenario has undefined step(s)">
+<exception class="The scenario has ambiguous step(s)">
 <message><![CDATA[
 Given a pending step........................................................pending
 And an undefined step.......................................................undefined
 And an ambiguous step.......................................................ambiguous
 ]]></message>
 <full-stacktrace>
-<![CDATA[The scenario has undefined step(s)]]>
+<![CDATA[The scenario has ambiguous step(s)]]>
 </full-stacktrace>
 </exception>
 </test-method>
 <test-method name="Undefined and ambiguous steps can follow a failed-ish step - Undefined as the first failed-ish step" status="FAIL" duration-ms="7" started-at="1970-01-01T00:00:00.009Z" finished-at="1970-01-01T00:00:00.016Z">
-<exception class="The scenario has undefined step(s)">
+<exception class="The scenario has ambiguous step(s)">
 <message><![CDATA[
 Given an undefined step.....................................................undefined
 And an undefined step.......................................................undefined
 And an ambiguous step.......................................................ambiguous
 ]]></message>
 <full-stacktrace>
-<![CDATA[The scenario has undefined step(s)]]>
+<![CDATA[The scenario has ambiguous step(s)]]>
 </full-stacktrace>
 </exception>
 </test-method>
 <test-method name="Undefined and ambiguous steps can follow a failed-ish step - Ambiguous as the first failed-ish step" status="FAIL" duration-ms="7" started-at="1970-01-01T00:00:00.017Z" finished-at="1970-01-01T00:00:00.024Z">
-<exception class="The scenario has undefined step(s)">
+<exception class="The scenario has ambiguous step(s)">
 <message><![CDATA[
 Given an ambiguous step.....................................................ambiguous
 And an undefined step.......................................................undefined
 And an ambiguous step.......................................................ambiguous
 ]]></message>
 <full-stacktrace>
-<![CDATA[The scenario has undefined step(s)]]>
+<![CDATA[The scenario has ambiguous step(s)]]>
 </full-stacktrace>
 </exception>
 </test-method>
@@ -77,14 +77,14 @@ And a failing step..........................................................skip
 </exception>
 </test-method>
 <test-method name="Failed and pending steps do not follow a failed-ish step - Ambiguous as the first failed-ish step" status="FAIL" duration-ms="7" started-at="1970-01-01T00:00:00.049Z" finished-at="1970-01-01T00:00:00.056Z">
-<exception class="The scenario has undefined step(s)">
+<exception class="The scenario has ambiguous step(s)">
 <message><![CDATA[
 Given an ambiguous step.....................................................ambiguous
 And a pending step..........................................................skipped
 And a failing step..........................................................skipped
 ]]></message>
 <full-stacktrace>
-<![CDATA[The scenario has undefined step(s)]]>
+<![CDATA[The scenario has ambiguous step(s)]]>
 </full-stacktrace>
 </exception>
 </test-method>

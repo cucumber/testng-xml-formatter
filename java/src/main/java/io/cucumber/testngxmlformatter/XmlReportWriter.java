@@ -152,7 +152,7 @@ class XmlReportWriter {
 
     private void writeException(EscapingXmlStreamWriter writer, TestCaseStarted testCaseStarted, TestStepResult result) throws XMLStreamException {
         Exception exceptionOrSkippedOrUndefined = result.getException()
-                .orElseGet(undefinedSkippedOrPendingException(result.getStatus()));
+                .orElseGet(nonPassingStepsException(result.getStatus()));
         Optional<String> stackTrace = exceptionOrSkippedOrUndefined.getStackTrace();
         writer.writeStartElement("exception");
         writeExceptionAttributes(writer, exceptionOrSkippedOrUndefined);
@@ -174,28 +174,38 @@ class XmlReportWriter {
 
     }
 
-    private static Supplier<Exception> undefinedSkippedOrPendingException(TestStepResultStatus status) {
+    private static Supplier<Exception> nonPassingStepsException(TestStepResultStatus status) {
         return switch (status) {
+            // Skipped may not be caused by an exception, i.e. `return "skipped` in JS or Ruby.
             case SKIPPED ->
-                // Skipped may not be caused by an exception, i.e. `return "skipped` in JS or Ruby.
                     () -> new Exception(
                             "The scenario has skipped step(s)",
                             null,
                             "The scenario has skipped step(s)"
                     );
-            // Pending usually comes from an exception, but not always
+            // Skipped may not be caused by an exception, i.e. `return "pending` in JS or Ruby.
             case PENDING -> () -> new Exception(
                     "The scenario has pending step(s)",
                     null,
                     "The scenario has pending step(s)"
             );
-            default ->
-                // Undefined is not caused by an exception
-                    () -> new Exception(
-                            "The scenario has undefined step(s)",
-                            null,
-                            "The scenario has undefined step(s)"
-                    );
+            // Undefined is never caused by an exception
+            case UNDEFINED -> () -> new Exception(
+                    "The scenario has undefined step(s)",
+                    null,
+                    "The scenario has undefined step(s)"
+            );
+            // Ambiguous doesn't have to come with an exception.
+            case AMBIGUOUS -> () -> new Exception(
+                    "The scenario has ambiguous step(s)",
+                    null,
+                    "The scenario has ambiguous step(s)"
+            );
+            default -> () -> new Exception(
+                    "The scenario has non-passing step(s)",
+                    null,
+                    "The scenario has non-passing step(s)"
+            );
         };
     }
 
