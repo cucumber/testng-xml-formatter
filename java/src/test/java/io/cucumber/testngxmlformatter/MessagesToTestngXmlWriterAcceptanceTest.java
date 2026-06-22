@@ -2,7 +2,7 @@ package io.cucumber.testngxmlformatter;
 
 import io.cucumber.compatibilitykit.MessageOrderer;
 import io.cucumber.messages.NdjsonToMessageReader;
-import io.cucumber.messages.ndjson.Deserializer;
+import io.cucumber.messages.ndjson.Json;
 import io.cucumber.messages.types.Envelope;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -30,6 +30,9 @@ class MessagesToTestngXmlWriterAcceptanceTest {
 
     private static final Random random = new Random(202509282040L);
     private static final MessageOrderer messageOrderer = new MessageOrderer(random);
+    private static final NdjsonToMessageReader.Deserializer deserializer = Json.instance()
+            .map(json -> json.deserializer(Envelope.class))
+            .orElseThrow()::readValue;
 
     static List<TestCase> acceptance() throws IOException {
         try (Stream<Path> paths = Files.list(Paths.get("../testdata/src"))) {
@@ -74,7 +77,7 @@ class MessagesToTestngXmlWriterAcceptanceTest {
 
     private static <T extends OutputStream> T writeTestngXmlReport(TestCase testCase, T out, Consumer<List<Envelope>> orderer) throws IOException {
         try (var in = Files.newInputStream(testCase.source)) {
-            try (var reader = new NdjsonToMessageReader(in, new Deserializer())) {
+            try (var reader = new NdjsonToMessageReader(in, deserializer)) {
                 List<Envelope> messages = reader.lines().collect(toList());
                 orderer.accept(messages);
                 try (var writer = new MessagesToTestngXmlWriter(out)) {
