@@ -90,7 +90,7 @@ class MessagesToTestngXmlWriterAcceptanceTest {
         return out;
     }
 
-    private static final class TestCase {
+    static final class TestCase {
         private final Path source;
         private final Path expected;
         private final String name;
