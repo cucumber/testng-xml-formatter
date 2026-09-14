@@ -4,6 +4,7 @@ import io.cucumber.messages.Convertor;
 import io.cucumber.messages.LocationComparator;
 import io.cucumber.messages.types.Envelope;
 import io.cucumber.messages.types.Feature;
+import io.cucumber.messages.types.Hook;
 import io.cucumber.messages.types.Pickle;
 import io.cucumber.messages.types.PickleStep;
 import io.cucumber.messages.types.Step;
@@ -19,6 +20,7 @@ import io.cucumber.query.Lineage;
 import io.cucumber.query.NamingStrategy;
 import io.cucumber.query.Query;
 import io.cucumber.query.Repository;
+import io.cucumber.testngxmlformatter.SourceReferenceFormatter.ClassMethodName;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -32,10 +34,13 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static io.cucumber.messages.types.TestStepResultStatus.PASSED;
 import static io.cucumber.messages.types.TestStepResultStatus.SKIPPED;
 import static io.cucumber.query.Repository.RepositoryFeature.INCLUDE_GHERKIN_DOCUMENTS;
+import static io.cucumber.query.Repository.RepositoryFeature.INCLUDE_HOOKS;
 import static java.util.Comparator.nullsFirst;
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.groupingBy;
@@ -49,9 +54,11 @@ class XmlReportData {
     private static final TestStepResult SCENARIO_WITH_NO_STEPS = new TestStepResult(ZERO_DURATION, null, PASSED, null);
     private final Repository repository = Repository.builder()
             .feature(INCLUDE_GHERKIN_DOCUMENTS, true)
+            .feature(INCLUDE_HOOKS, true)
             .build();
     private final Query query = new Query(repository);
     private final NamingStrategy namingStrategy;
+    private final SourceReferenceFormatter sourceReferenceFormatter = new SourceReferenceFormatter(Function.identity());
 
     XmlReportData(NamingStrategy namingStrategy) {
         this.namingStrategy = namingStrategy;
@@ -190,14 +197,21 @@ class XmlReportData {
         return DateTimeFormatter.ISO_INSTANT.format(instant);
     }
 
-    List<TestRunHookFinished> getAllNonPassingTestRunHooksFinished() {
+    Map<ClassMethodName, List<TestRunHookFinished>> getAllNonPassingTestRunHooksFinished() {
         return query.findAllTestRunHookFinished()
                 .stream()
                 .filter(testRunHookFinished -> {
                     TestStepResultStatus status = testRunHookFinished.getResult().getStatus();
                     return !(status == PASSED || status == SKIPPED);
                 })
-                .toList();
+                .collect(Collectors.groupingBy(this::getClassMethodName));
+    }
+
+    private ClassMethodName getClassMethodName(TestRunHookFinished testRunHookFinished) {
+        return query.findHookBy(testRunHookFinished)
+                .map(Hook::getSourceReference)
+                .flatMap(sourceReferenceFormatter::format)
+                .orElseGet(() -> new ClassMethodName(null, "Unknown"));
     }
 
 }
