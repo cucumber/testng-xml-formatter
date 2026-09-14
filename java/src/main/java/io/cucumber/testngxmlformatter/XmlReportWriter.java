@@ -3,6 +3,7 @@ package io.cucumber.testngxmlformatter;
 import io.cucumber.messages.types.Exception;
 import io.cucumber.messages.types.Feature;
 import io.cucumber.messages.types.TestCaseStarted;
+import io.cucumber.messages.types.TestRunHookFinished;
 import io.cucumber.messages.types.TestStepResult;
 import io.cucumber.messages.types.TestStepResultStatus;
 
@@ -86,6 +87,19 @@ class XmlReportWriter {
         writeTestAttributes(writer);
         writer.writeNewLine();
 
+        List<TestRunHookFinished> allNonPassingTestRunHooksFinished = data.getAllNonPassingTestRunHooksFinished();
+        if (!allNonPassingTestRunHooksFinished.isEmpty()) {
+            writer.writeStartElement("class");
+            writer.writeAttribute("name", "TestRunHooks");
+            writer.writeNewLine();
+
+            for (TestRunHookFinished nonPassingTestRunHookFinished : allNonPassingTestRunHooksFinished) {
+                writeSyntheticTestMethod(writer, nonPassingTestRunHookFinished);
+            }
+            writer.writeEndElement();
+            writer.writeNewLine();
+        }
+
         Set<Entry<Optional<Feature>, List<TestCaseStarted>>> allTestCaseStartedGroupedByFeature = data.getAllTestCaseStartedGroupedByFeature();
         for (Entry<Optional<Feature>, List<TestCaseStarted>> entry : allTestCaseStartedGroupedByFeature) {
             writer.writeStartElement("class");
@@ -110,6 +124,52 @@ class XmlReportWriter {
         writer.writeAttribute("duration-ms", String.valueOf(data.getSuiteDurationInMilliSeconds()));
     }
 
+    private void writeSyntheticTestMethod(EscapingXmlStreamWriter writer, TestRunHookFinished nonPassingTestRunHookFinished) throws XMLStreamException {
+        TestStepResult result = nonPassingTestRunHookFinished.getResult();
+        boolean passing = isPassed(result);
+        if (passing) {
+            writer.writeEmptyElement("test-method");
+        } else {
+            writer.writeStartElement("test-method");
+        }
+        writeSyntheticTestMethodAttributes(writer, nonPassingTestRunHookFinished, result);
+        if (!passing) {
+            writer.writeNewLine();
+            writeSyntheticException(writer, result);
+            writer.writeEndElement();
+        }
+        writer.writeNewLine();
+    }
+
+    private void writeSyntheticTestMethodAttributes(EscapingXmlStreamWriter writer, TestRunHookFinished nonPassingTestRunHookFinished, TestStepResult result) throws XMLStreamException {
+        writer.writeAttribute("name", "testRunHook");
+        writer.writeAttribute("status", writeStatus(result));
+        writer.writeAttribute("duration-ms", String.valueOf(data.getDurationInMilliSeconds(nonPassingTestRunHookFinished)));
+        writer.writeAttribute("started-at", data.getStartedAt(nonPassingTestRunHookFinished));
+        writer.writeAttribute("finished-at", data.getFinishedAt(nonPassingTestRunHookFinished));
+    }
+
+    private void writeSyntheticException(EscapingXmlStreamWriter writer, TestStepResult result) throws XMLStreamException {
+        if (result.getException().isEmpty()) {
+            return;
+        }
+        Exception exceptionOrSkippedOrUndefined = result.getException().get();
+        Optional<String> stackTrace = exceptionOrSkippedOrUndefined.getStackTrace();
+        writer.writeStartElement("exception");
+        writeExceptionAttributes(writer, exceptionOrSkippedOrUndefined);
+        writer.writeNewLine();
+
+        if (stackTrace.isPresent()) {
+            writer.writeStartElement("full-stacktrace");
+            writer.writeNewLine();
+            writer.writeCData(stackTrace.get());
+            writer.writeNewLine();
+            writer.writeEndElement();
+            writer.writeNewLine();
+        }
+        writer.writeEndElement();
+        writer.writeNewLine();
+    }
 
     private void writeTestMethod(EscapingXmlStreamWriter writer, TestCaseStarted testCaseStarted) throws XMLStreamException {
         TestStepResult result = data.getTestCaseStatus(testCaseStarted);
@@ -173,6 +233,8 @@ class XmlReportWriter {
         writer.writeNewLine();
 
     }
+
+
 
     private static Supplier<Exception> nonPassingStepsException(TestStepResultStatus status) {
         return switch (status) {
