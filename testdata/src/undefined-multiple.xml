@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results failed="7" passed="0" skipped="0" total="7">
+<suite name="Cucumber" duration-ms="59">
+<test name="Cucumber" duration-ms="59">
+<class name="Undefined steps">
+<test-method name="An undefined step causes a failure" status="FAIL" duration-ms="3" started-at="1970-01-01T00:00:00.001Z" finished-at="1970-01-01T00:00:00.004Z">
+<exception class="The scenario has undefined step(s)">
+<message><![CDATA[
+Given a step that is yet to be defined......................................undefined
+]]></message>
+<full-stacktrace>
+<![CDATA[The scenario has undefined step(s)]]>
+</full-stacktrace>
+</exception>
+</test-method>
+<test-method name="All steps are executed before a single undefined step" status="FAIL" duration-ms="7" started-at="1970-01-01T00:00:00.005Z" finished-at="1970-01-01T00:00:00.012Z">
+<exception class="The scenario has undefined step(s)">
+<message><![CDATA[
+Given an implemented step...................................................passed
+And an implemented step.....................................................passed
+And a step that is yet to be defined........................................undefined
+]]></message>
+<full-stacktrace>
+<![CDATA[The scenario has undefined step(s)]]>
+</full-stacktrace>
+</exception>
+</test-method>
+<test-method name="Multiple undefined steps will all remain as undefined" status="FAIL" duration-ms="11" started-at="1970-01-01T00:00:00.013Z" finished-at="1970-01-01T00:00:00.024Z">
+<exception class="The scenario has undefined step(s)">
+<message><![CDATA[
+Given an implemented step...................................................passed
+And an implemented step.....................................................passed
+And a step that is yet to be defined........................................undefined
+And another step that is also yet to be defined.............................undefined
+And a third step that is yet to be defined..................................undefined
+]]></message>
+<full-stacktrace>
+<![CDATA[The scenario has undefined step(s)]]>
+</full-stacktrace>
+</exception>
+</test-method>
+<test-method name="Multiple defined steps after undefined steps are all skipped" status="FAIL" duration-ms="7" started-at="1970-01-01T00:00:00.025Z" finished-at="1970-01-01T00:00:00.032Z">
+<exception class="The scenario has undefined step(s)">
+<message><![CDATA[
+Given a step that is yet to be defined......................................undefined
+And a step that will be skipped.............................................skipped
+And a step that will be skipped.............................................skipped
+]]></message>
+<full-stacktrace>
+<![CDATA[The scenario has undefined step(s)]]>
+</full-stacktrace>
+</exception>
+</test-method>
+<test-method name="Multiple undefined steps after skipped steps will also remain as undefined" status="FAIL" duration-ms="11" started-at="1970-01-01T00:00:00.033Z" finished-at="1970-01-01T00:00:00.044Z">
+<exception class="The scenario has undefined step(s)">
+<message><![CDATA[
+Given a step that is yet to be defined......................................undefined
+And a step that will be skipped.............................................skipped
+And a step that will be skipped.............................................skipped
+And a step that is yet to be defined........................................undefined
+And another step that is also yet to be defined.............................undefined
+]]></message>
+<full-stacktrace>
+<![CDATA[The scenario has undefined step(s)]]>
+</full-stacktrace>
+</exception>
+</test-method>
+<test-method name="Multiple missing snippets reflect parameter types" status="FAIL" duration-ms="7" started-at="1970-01-01T00:00:00.045Z" finished-at="1970-01-01T00:00:00.052Z">
+<exception class="The scenario has undefined step(s)">
+<message><![CDATA[
+Given a list of 8 things....................................................undefined
+And a list of 3.14 things...................................................undefined
+And a list of "many" things.................................................undefined
+]]></message>
+<full-stacktrace>
+<![CDATA[The scenario has undefined step(s)]]>
+</full-stacktrace>
+</exception>
+</test-method>
+<test-method name="Multiple undefined steps also cause a failure" status="FAIL" duration-ms="5" started-at="1970-01-01T00:00:00.053Z" finished-at="1970-01-01T00:00:00.058Z">
+<exception class="The scenario has undefined step(s)">
+<message><![CDATA[
+Given a step that is yet to be defined......................................undefined
+And another step that is also yet to be defined.............................undefined
+]]></message>
+<full-stacktrace>
+<![CDATA[The scenario has undefined step(s)]]>
+</full-stacktrace>
+</exception>
+</test-method>
+</class>
+</test>
+</suite>
+</testng-results>
