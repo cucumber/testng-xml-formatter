@@ -35,7 +35,6 @@ import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import static io.cucumber.messages.types.TestStepResultStatus.PASSED;
 import static io.cucumber.messages.types.TestStepResultStatus.SKIPPED;
@@ -58,10 +57,11 @@ class XmlReportData {
             .build();
     private final Query query = new Query(repository);
     private final NamingStrategy namingStrategy;
-    private final SourceReferenceFormatter sourceReferenceFormatter = new SourceReferenceFormatter(Function.identity());
+    private final SourceReferenceFormatter sourceReferenceFormatter;
 
-    XmlReportData(NamingStrategy namingStrategy) {
+    XmlReportData(NamingStrategy namingStrategy, Function<String, String> uriFormatter) {
         this.namingStrategy = namingStrategy;
+        this.sourceReferenceFormatter = new SourceReferenceFormatter(uriFormatter);
     }
 
     void collect(Envelope envelope) {
@@ -197,14 +197,15 @@ class XmlReportData {
         return DateTimeFormatter.ISO_INSTANT.format(instant);
     }
 
-    Map<ClassMethodName, List<TestRunHookFinished>> getAllNonPassingTestRunHooksFinished() {
+    Map<Optional<String>, List<Entry<ClassMethodName, TestRunHookFinished>>> getAllNonPassingTestRunHooksFinished() {
         return query.findAllTestRunHookFinished()
                 .stream()
                 .filter(testRunHookFinished -> {
                     TestStepResultStatus status = testRunHookFinished.getResult().getStatus();
                     return !(status == PASSED || status == SKIPPED);
                 })
-                .collect(Collectors.groupingBy(this::getClassMethodName));
+                .map(testRunHookFinished -> Map.entry(getClassMethodName(testRunHookFinished), testRunHookFinished))
+                .collect(groupingBy(entry -> Optional.ofNullable(entry.getKey().className())));
     }
 
     private ClassMethodName getClassMethodName(TestRunHookFinished testRunHookFinished) {

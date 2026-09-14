@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
+import java.util.function.Function;
 
+import static io.cucumber.query.NamingStrategy.ExampleName.NUMBER_AND_PICKLE_IF_PARAMETERIZED;
 import static io.cucumber.query.NamingStrategy.FeatureName.EXCLUDE;
 import static io.cucumber.query.NamingStrategy.Strategy.LONG;
 import static java.util.Objects.requireNonNull;
@@ -26,21 +28,25 @@ public class MessagesToTestngXmlWriter implements AutoCloseable {
     private final XmlReportData data;
     private boolean streamClosed = false;
 
-
     public MessagesToTestngXmlWriter(OutputStream out) {
-        this(NamingStrategy.ExampleName.NUMBER_AND_PICKLE_IF_PARAMETERIZED, out);
+        this(createNamingStrategy(NUMBER_AND_PICKLE_IF_PARAMETERIZED), Function.identity(), out);
     }
 
+    @Deprecated
     public MessagesToTestngXmlWriter(NamingStrategy.ExampleName exampleNameStrategy, OutputStream out) {
-        this(createNamingStrategy(requireNonNull(exampleNameStrategy)), out);
+        this(createNamingStrategy(requireNonNull(exampleNameStrategy)), Function.identity(), out);
     }
 
     private static NamingStrategy createNamingStrategy(NamingStrategy.ExampleName exampleName) {
         return NamingStrategy.strategy(LONG).featureName(EXCLUDE).exampleName(exampleName).build();
     }
 
-    private MessagesToTestngXmlWriter(NamingStrategy namingStrategy, OutputStream out) {
-        this.data = new XmlReportData(namingStrategy);
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    private MessagesToTestngXmlWriter(NamingStrategy namingStrategy, Function<String, String> uriFormatter, OutputStream out) {
+        this.data = new XmlReportData(namingStrategy, uriFormatter);
         this.out = new OutputStreamWriter(
                 requireNonNull(out),
                 StandardCharsets.UTF_8
@@ -83,6 +89,56 @@ public class MessagesToTestngXmlWriter implements AutoCloseable {
             } finally {
                 streamClosed = true;
             }
+        }
+    }
+
+    public final static class Builder {
+
+        private NamingStrategy testNamingStrategy = NamingStrategy.strategy(LONG)
+                .featureName(EXCLUDE)
+                .exampleName(NUMBER_AND_PICKLE_IF_PARAMETERIZED)
+                .build();
+
+        private Function<String, String> uriFormatter = Function.identity();
+
+        private Builder() {
+
+        }
+
+        private static Function<String, String> removePrefix(String prefix) {
+            // TODO: Needs coverage
+            return s -> {
+                if (s.startsWith(prefix)) {
+                    return s.substring(prefix.length());
+                }
+                return s;
+            };
+        }
+
+        /**
+         * Removes a given prefix from all URI locations.
+         * <p>
+         * The typical usage would be to trim the current working directory.
+         * This makes the report more readable.
+         */
+        public Builder removeUriPrefix(String prefix) {
+            // TODO: Needs coverage
+            this.uriFormatter = removePrefix(requireNonNull(prefix));
+            return this;
+        }
+
+        /**
+         * Set the naming strategy used for the {@code <testcase name="...".../> attribute}. Defaults to the
+         * {@link NamingStrategy.Strategy#LONG} strategy with {@link NamingStrategy.FeatureName#EXCLUDE} and
+         * {@link NamingStrategy.ExampleName#NUMBER_AND_PICKLE_IF_PARAMETERIZED}.
+         */
+        public Builder testNamingStrategy(NamingStrategy namingStrategy) {
+            this.testNamingStrategy = requireNonNull(namingStrategy);
+            return this;
+        }
+
+        public MessagesToTestngXmlWriter build(OutputStream out) {
+            return new MessagesToTestngXmlWriter(testNamingStrategy, uriFormatter, requireNonNull(out));
         }
     }
 }

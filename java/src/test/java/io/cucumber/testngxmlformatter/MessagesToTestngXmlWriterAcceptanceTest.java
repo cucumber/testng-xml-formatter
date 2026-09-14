@@ -83,7 +83,7 @@ class MessagesToTestngXmlWriterAcceptanceTest {
             try (var reader = new NdjsonToMessageReader(in, deserializer)) {
                 List<Envelope> messages = reader.lines().collect(toList());
                 orderer.accept(messages);
-                try (var writer = new MessagesToTestngXmlWriter(out)) {
+                try (var writer = MessagesToTestngXmlWriter.builder().build(out)) {
                     for (Envelope envelope : messages) {
                         writer.write(envelope);
                     }

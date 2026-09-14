@@ -88,16 +88,16 @@ class XmlReportWriter {
         writeTestAttributes(writer);
         writer.writeNewLine();
 
-        for (var nonPassingHookEntry : data.getAllNonPassingTestRunHooksFinished().entrySet()) {
-            var classMethodName = nonPassingHookEntry.getKey();
-            var nonPassingTestRunHooks = nonPassingHookEntry.getValue();
+        for (var nonPassingHooksByClassName : data.getAllNonPassingTestRunHooksFinished().entrySet()) {
+            var className = nonPassingHooksByClassName.getKey();
+            var nonPassingTestRunHooks = nonPassingHooksByClassName.getValue();
 
             writer.writeStartElement("class");
-            writer.writeAttribute("name", classMethodName.className() == null ? "Unknown" : classMethodName.className());
+            writer.writeAttribute("name", className.orElse("Unknown"));
             writer.writeNewLine();
 
-            for (var nonPassingTestRunHook : nonPassingTestRunHooks) {
-                writeSyntheticTestMethod(writer, classMethodName, nonPassingTestRunHook);
+            for (var nonPassingHooksByClassMethodName : nonPassingTestRunHooks) {
+                writeSyntheticTestMethod(writer, nonPassingHooksByClassMethodName.getKey(), nonPassingHooksByClassMethodName.getValue());
             }
             writer.writeEndElement();
             writer.writeNewLine();
@@ -127,15 +127,15 @@ class XmlReportWriter {
         writer.writeAttribute("duration-ms", String.valueOf(data.getSuiteDurationInMilliSeconds()));
     }
 
-    private void writeSyntheticTestMethod(EscapingXmlStreamWriter writer, ClassMethodName classMethodName, TestRunHookFinished nonPassingTestRunHook) throws XMLStreamException {
-        TestStepResult result = nonPassingTestRunHook.getResult();
+    private void writeSyntheticTestMethod(EscapingXmlStreamWriter writer, ClassMethodName classMethodName, TestRunHookFinished testRunHookFinished) throws XMLStreamException {
+        TestStepResult result = testRunHookFinished.getResult();
         boolean passing = isPassed(result);
         if (passing) {
             writer.writeEmptyElement("test-method");
         } else {
             writer.writeStartElement("test-method");
         }
-        writeSyntheticTestMethodAttributes(writer, classMethodName, nonPassingTestRunHook, result);
+        writeSyntheticTestMethodAttributes(writer, classMethodName, testRunHookFinished, result);
         if (!passing) {
             writer.writeNewLine();
             writeSyntheticException(writer, result);
@@ -144,12 +144,12 @@ class XmlReportWriter {
         writer.writeNewLine();
     }
 
-    private void writeSyntheticTestMethodAttributes(EscapingXmlStreamWriter writer, ClassMethodName classMethodName, TestRunHookFinished nonPassingTestRunHookFinished, TestStepResult result) throws XMLStreamException {
+    private void writeSyntheticTestMethodAttributes(EscapingXmlStreamWriter writer, ClassMethodName classMethodName, TestRunHookFinished testRunHookFinished, TestStepResult result) throws XMLStreamException {
         writer.writeAttribute("name", classMethodName.methodName());
         writer.writeAttribute("status", writeStatus(result));
-        writer.writeAttribute("duration-ms", String.valueOf(data.getDurationInMilliSeconds(nonPassingTestRunHookFinished)));
-        writer.writeAttribute("started-at", data.getStartedAt(nonPassingTestRunHookFinished));
-        writer.writeAttribute("finished-at", data.getFinishedAt(nonPassingTestRunHookFinished));
+        writer.writeAttribute("duration-ms", String.valueOf(data.getDurationInMilliSeconds(testRunHookFinished)));
+        writer.writeAttribute("started-at", data.getStartedAt(testRunHookFinished));
+        writer.writeAttribute("finished-at", data.getFinishedAt(testRunHookFinished));
     }
 
     private void writeSyntheticException(EscapingXmlStreamWriter writer, TestStepResult result) throws XMLStreamException {
