@@ -4,11 +4,14 @@ import io.cucumber.messages.Convertor;
 import io.cucumber.messages.LocationComparator;
 import io.cucumber.messages.types.Envelope;
 import io.cucumber.messages.types.Feature;
+import io.cucumber.messages.types.Hook;
 import io.cucumber.messages.types.Pickle;
 import io.cucumber.messages.types.PickleStep;
 import io.cucumber.messages.types.Step;
 import io.cucumber.messages.types.TestCaseFinished;
 import io.cucumber.messages.types.TestCaseStarted;
+import io.cucumber.messages.types.TestRunHookFinished;
+import io.cucumber.messages.types.TestRunHookStarted;
 import io.cucumber.messages.types.TestStep;
 import io.cucumber.messages.types.TestStepFinished;
 import io.cucumber.messages.types.TestStepResult;
@@ -17,6 +20,7 @@ import io.cucumber.query.Lineage;
 import io.cucumber.query.NamingStrategy;
 import io.cucumber.query.Query;
 import io.cucumber.query.Repository;
+import io.cucumber.testngxmlformatter.SourceReferenceFormatter.ClassMethodName;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -30,9 +34,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 
 import static io.cucumber.messages.types.TestStepResultStatus.PASSED;
+import static io.cucumber.messages.types.TestStepResultStatus.SKIPPED;
 import static io.cucumber.query.Repository.RepositoryFeature.INCLUDE_GHERKIN_DOCUMENTS;
+import static io.cucumber.query.Repository.RepositoryFeature.INCLUDE_HOOKS;
 import static java.util.Comparator.nullsFirst;
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.groupingBy;
@@ -46,12 +53,15 @@ class XmlReportData {
     private static final TestStepResult SCENARIO_WITH_NO_STEPS = new TestStepResult(ZERO_DURATION, null, PASSED, null);
     private final Repository repository = Repository.builder()
             .feature(INCLUDE_GHERKIN_DOCUMENTS, true)
+            .feature(INCLUDE_HOOKS, true)
             .build();
     private final Query query = new Query(repository);
     private final NamingStrategy namingStrategy;
+    private final SourceReferenceFormatter sourceReferenceFormatter;
 
-    XmlReportData(NamingStrategy namingStrategy) {
+    XmlReportData(NamingStrategy namingStrategy, Function<String, String> uriFormatter) {
         this.namingStrategy = namingStrategy;
+        this.sourceReferenceFormatter = new SourceReferenceFormatter(uriFormatter);
     }
 
     void collect(Envelope envelope) {
@@ -66,6 +76,17 @@ class XmlReportData {
 
     long getDurationInMilliSeconds(TestCaseStarted testCaseStarted) {
         return query.findTestCaseDurationBy(testCaseStarted)
+                .orElse(Duration.ZERO)
+                .toMillis();
+    }
+
+    double getDurationInMilliSeconds(TestRunHookFinished testRunHookFinished) {
+        return query.findTestRunHookStartedBy(testRunHookFinished)
+                .map(testRunHookStarted -> {
+                    var start = Convertor.toInstant(testRunHookStarted.getTimestamp());
+                    var end = Convertor.toInstant(testRunHookFinished.getTimestamp());
+                    return Duration.between(start, end);
+                })
                 .orElse(Duration.ZERO)
                 .toMillis();
     }
@@ -157,10 +178,41 @@ class XmlReportData {
         return DateTimeFormatter.ISO_INSTANT.format(instant);
     }
 
+    String getStartedAt(TestRunHookFinished testRunHookFinished) {
+        TestRunHookStarted testRunHookStarted = query.findTestRunHookStartedBy(testRunHookFinished)
+                .orElseThrow(() -> new IllegalStateException("No test cased started for " + testRunHookFinished));
+        Instant instant = Convertor.toInstant(testRunHookStarted.getTimestamp());
+        return DateTimeFormatter.ISO_INSTANT.format(instant);
+    }
+
+    String getFinishedAt(TestRunHookFinished testRunHookFinished) {
+        Instant instant = Convertor.toInstant(testRunHookFinished.getTimestamp());
+        return DateTimeFormatter.ISO_INSTANT.format(instant);
+    }
+
     String getFinishedAt(TestCaseStarted testCaseStarted) {
         TestCaseFinished testCaseFinished = query.findTestCaseFinishedBy(testCaseStarted)
                 .orElseThrow(() -> new IllegalStateException("No test cased finished for " + testCaseStarted));
         Instant instant = Convertor.toInstant(testCaseFinished.getTimestamp());
         return DateTimeFormatter.ISO_INSTANT.format(instant);
     }
+
+    Map<Optional<String>, List<Entry<ClassMethodName, TestRunHookFinished>>> getAllNonPassingTestRunHooksFinished() {
+        return query.findAllTestRunHookFinished()
+                .stream()
+                .filter(testRunHookFinished -> {
+                    TestStepResultStatus status = testRunHookFinished.getResult().getStatus();
+                    return !(status == PASSED || status == SKIPPED);
+                })
+                .map(testRunHookFinished -> Map.entry(getClassMethodName(testRunHookFinished), testRunHookFinished))
+                .collect(groupingBy(entry -> Optional.ofNullable(entry.getKey().className())));
+    }
+
+    private ClassMethodName getClassMethodName(TestRunHookFinished testRunHookFinished) {
+        return query.findHookBy(testRunHookFinished)
+                .map(Hook::getSourceReference)
+                .flatMap(sourceReferenceFormatter::format)
+                .orElseGet(() -> new ClassMethodName(null, "Unknown"));
+    }
+
 }

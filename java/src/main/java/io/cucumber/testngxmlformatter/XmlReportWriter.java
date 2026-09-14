@@ -3,8 +3,10 @@ package io.cucumber.testngxmlformatter;
 import io.cucumber.messages.types.Exception;
 import io.cucumber.messages.types.Feature;
 import io.cucumber.messages.types.TestCaseStarted;
+import io.cucumber.messages.types.TestRunHookFinished;
 import io.cucumber.messages.types.TestStepResult;
 import io.cucumber.messages.types.TestStepResultStatus;
+import io.cucumber.testngxmlformatter.SourceReferenceFormatter.ClassMethodName;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -86,6 +88,21 @@ class XmlReportWriter {
         writeTestAttributes(writer);
         writer.writeNewLine();
 
+        for (var nonPassingHooksByClassName : data.getAllNonPassingTestRunHooksFinished().entrySet()) {
+            var className = nonPassingHooksByClassName.getKey();
+            var nonPassingTestRunHooks = nonPassingHooksByClassName.getValue();
+
+            writer.writeStartElement("class");
+            writer.writeAttribute("name", className.orElse("Unknown"));
+            writer.writeNewLine();
+
+            for (var nonPassingHooksByClassMethodName : nonPassingTestRunHooks) {
+                writeSyntheticTestMethod(writer, nonPassingHooksByClassMethodName.getKey(), nonPassingHooksByClassMethodName.getValue());
+            }
+            writer.writeEndElement();
+            writer.writeNewLine();
+        }
+
         Set<Entry<Optional<Feature>, List<TestCaseStarted>>> allTestCaseStartedGroupedByFeature = data.getAllTestCaseStartedGroupedByFeature();
         for (Entry<Optional<Feature>, List<TestCaseStarted>> entry : allTestCaseStartedGroupedByFeature) {
             writer.writeStartElement("class");
@@ -110,6 +127,52 @@ class XmlReportWriter {
         writer.writeAttribute("duration-ms", String.valueOf(data.getSuiteDurationInMilliSeconds()));
     }
 
+    private void writeSyntheticTestMethod(EscapingXmlStreamWriter writer, ClassMethodName classMethodName, TestRunHookFinished testRunHookFinished) throws XMLStreamException {
+        TestStepResult result = testRunHookFinished.getResult();
+        boolean passing = isPassed(result);
+        if (passing) {
+            writer.writeEmptyElement("test-method");
+        } else {
+            writer.writeStartElement("test-method");
+        }
+        writeSyntheticTestMethodAttributes(writer, classMethodName, testRunHookFinished, result);
+        if (!passing) {
+            writer.writeNewLine();
+            writeSyntheticException(writer, result);
+            writer.writeEndElement();
+        }
+        writer.writeNewLine();
+    }
+
+    private void writeSyntheticTestMethodAttributes(EscapingXmlStreamWriter writer, ClassMethodName classMethodName, TestRunHookFinished testRunHookFinished, TestStepResult result) throws XMLStreamException {
+        writer.writeAttribute("name", classMethodName.methodName());
+        writer.writeAttribute("status", writeStatus(result));
+        writer.writeAttribute("duration-ms", String.valueOf(data.getDurationInMilliSeconds(testRunHookFinished)));
+        writer.writeAttribute("started-at", data.getStartedAt(testRunHookFinished));
+        writer.writeAttribute("finished-at", data.getFinishedAt(testRunHookFinished));
+    }
+
+    private void writeSyntheticException(EscapingXmlStreamWriter writer, TestStepResult result) throws XMLStreamException {
+        if (result.getException().isEmpty()) {
+            return;
+        }
+        Exception exceptionOrSkippedOrUndefined = result.getException().get();
+        Optional<String> stackTrace = exceptionOrSkippedOrUndefined.getStackTrace();
+        writer.writeStartElement("exception");
+        writeExceptionAttributes(writer, exceptionOrSkippedOrUndefined);
+        writer.writeNewLine();
+
+        if (stackTrace.isPresent()) {
+            writer.writeStartElement("full-stacktrace");
+            writer.writeNewLine();
+            writer.writeCData(stackTrace.get());
+            writer.writeNewLine();
+            writer.writeEndElement();
+            writer.writeNewLine();
+        }
+        writer.writeEndElement();
+        writer.writeNewLine();
+    }
 
     private void writeTestMethod(EscapingXmlStreamWriter writer, TestCaseStarted testCaseStarted) throws XMLStreamException {
         TestStepResult result = data.getTestCaseStatus(testCaseStarted);
@@ -173,6 +236,8 @@ class XmlReportWriter {
         writer.writeNewLine();
 
     }
+
+
 
     private static Supplier<Exception> nonPassingStepsException(TestStepResultStatus status) {
         return switch (status) {

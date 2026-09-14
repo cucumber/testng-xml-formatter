@@ -2,6 +2,16 @@
 <testng-results failed="0" passed="0" skipped="0" total="0">
 <suite name="Cucumber" duration-ms="11">
 <test name="Cucumber" duration-ms="11">
+<class name="Unknown">
+<test-method name="samples/global-hooks-beforeall-error/global-hooks-beforeall-error.ts:7" status="FAIL" duration-ms="1.0" started-at="1970-01-01T00:00:00.003Z" finished-at="1970-01-01T00:00:00.004Z">
+<exception class="Error">
+<full-stacktrace>
+<![CDATA[Error: BeforeAll hook went wrong
+samples/global-hooks-beforeall-error/global-hooks-beforeall-error.ts:7]]>
+</full-stacktrace>
+</exception>
+</test-method>
+</class>
 </test>
 </suite>
 </testng-results>
