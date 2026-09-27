@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results failed="0" passed="2" skipped="0" total="2">
+<suite name="Cucumber" duration-ms="9">
+<test name="Cucumber" duration-ms="9">
+<class name="Data Tables and Doc Strings">
+<test-method name="DataTable followed by DocString" status="PASS" duration-ms="3" started-at="1970-01-01T00:00:00.001Z" finished-at="1970-01-01T00:00:00.004Z"/>
+<test-method name="DocString followed by DataTable" status="PASS" duration-ms="3" started-at="1970-01-01T00:00:00.005Z" finished-at="1970-01-01T00:00:00.008Z"/>
+</class>
+</test>
+</suite>
+</testng-results>
